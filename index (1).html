@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>DoomFilms by Raorish Dev – Free movies, anime, live TV & AI tools</title>
+<meta name="description" content="DoomFilms is a curated hub of free movies, anime, live TV, AI tools and developer tools from official sources.">
+<meta name="theme-color" content="#0a0608">
+<link rel="canonical" href="https://YOUR-SITE.onrender.com/">
+<meta property="og:title" content="DoomFilms by Raorish Dev">
+<meta property="og:description" content="Free movies, anime, live TV and AI tools in one hub.">
+<meta property="og:type" content="website">
+<link rel="icon" href="icon.svg" type="image/svg+xml">
+<link rel="manifest" href="manifest.json">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bungee&family=Manrope:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0a0608;--ink:#fff1f3;--mut:#b49aa1;--a:#ff2e63;--b:#ff9a1f;--c:#8b5cff;--panel:rgba(255,255,255,.05);--line:rgba(255,255,255,.13)}
+*{box-sizing:border-box;margin:0}
+html{scroll-behavior:smooth;scroll-padding-top:70px}
+body{background:var(--bg);color:var(--ink);font-family:Manrope,system-ui,sans-serif;line-height:1.55;overflow-x:hidden;padding:env(safe-area-inset-top) 0 env(safe-area-inset-bottom)}
+canvas#fx{position:fixed;inset:0;z-index:-1;width:100%;height:100%}
+a{color:inherit;text-decoration:none}button{font:inherit;color:inherit;border:0;cursor:pointer}
+:focus-visible{outline:2px solid var(--b);outline-offset:3px}
+nav{position:sticky;top:0;z-index:20;display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px 4vw;backdrop-filter:blur(14px);background:rgba(10,6,8,.72);border-bottom:1px solid var(--line)}
+.logo{display:flex;align-items:center;gap:10px;font-family:Bungee,sans-serif;font-size:1.15rem;line-height:1}
+.logo img{width:38px;height:38px;filter:drop-shadow(0 0 10px rgba(255,46,99,.7))}
+.logo small{display:block;font:600 .62rem Manrope,sans-serif;color:var(--mut);margin-top:3px}
+.btn{padding:10px 18px;border-radius:999px;font-weight:800;background:linear-gradient(120deg,var(--a),var(--b));box-shadow:0 0 22px rgba(255,46,99,.5);transition:transform .2s}
+.btn:active,.btn:hover{transform:scale(1.04)}
+.ghost{background:var(--panel);border:1px solid var(--line);box-shadow:none}
+.hero{min-height:78vh;display:grid;place-content:center;text-align:center;padding:7vh 5vw 3vh}
+.hero img{width:clamp(96px,22vw,150px);margin:0 auto 18px;animation:float 4s ease-in-out infinite;filter:drop-shadow(0 0 30px rgba(255,46,99,.8))}
+@keyframes float{50%{transform:translateY(-12px) rotate(-3deg)}}
+.hero h1{font-family:Bungee,sans-serif;font-size:clamp(2.3rem,11vw,6rem);line-height:1;background:linear-gradient(100deg,var(--b),var(--a),var(--c),var(--b));background-size:250% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:flow 6s linear infinite;filter:drop-shadow(0 0 26px rgba(255,46,99,.5))}
+@keyframes flow{to{background-position:-250% 0}}
+.by{margin-top:8px;color:var(--b);font-weight:800}
+.hero p{max-width:32em;margin:16px auto 24px;color:var(--mut)}
+.cta{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+section{padding:46px 4vw;max-width:1200px;margin:auto}
+h2{font-family:Bungee,sans-serif;font-size:clamp(1.4rem,5vw,2.1rem);margin-bottom:18px}
+.pick{display:flex;gap:16px;align-items:center;padding:20px;border-radius:22px;border:1px solid var(--a);background:linear-gradient(120deg,rgba(255,46,99,.18),rgba(139,92,255,.14));box-shadow:0 0 40px rgba(255,46,99,.25);flex-wrap:wrap}
+.pick .em{font-size:2.6rem}.pick div{flex:1;min-width:180px}.pick b{color:var(--b)}
+.bar{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:22px}
+#q{flex:1 1 100%;padding:13px 18px;border-radius:999px;border:1px solid var(--line);background:var(--panel);color:var(--ink);font:inherit}
+#q:focus{border-color:var(--b);outline:0;box-shadow:0 0 18px rgba(255,154,31,.4)}
+#tabs{display:flex;gap:8px;overflow-x:auto;padding-bottom:4px;flex:1;scrollbar-width:none}
+.tab{flex:none;padding:9px 15px;border-radius:999px;background:var(--panel);border:1px solid var(--line);color:var(--mut);font-weight:700}
+.tab.on{color:#0a0608;background:var(--b);border-color:var(--b);box-shadow:0 0 18px rgba(255,154,31,.6)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:16px}
+.card{position:relative;border-radius:20px;background:var(--panel);border:1px solid var(--line);backdrop-filter:blur(10px);transition:transform .25s,border-color .25s,box-shadow .25s}
+.card:hover{transform:translateY(-5px);border-color:var(--a);box-shadow:0 14px 36px rgba(255,46,99,.3)}
+.go{display:flex;flex-direction:column;gap:6px;padding:20px;height:100%}
+.em{font-size:2rem}.card h3{font-size:1.08rem;padding-right:34px}.card p{color:var(--mut);font-size:.92rem;flex:1}
+.tag{font-size:.76rem;font-weight:800;color:var(--b)}
+.fav{position:absolute;top:12px;right:12px;width:36px;height:36px;border-radius:50%;background:rgba(0,0,0,.35);font-size:1.15rem;color:var(--mut);transition:.2s}
+.fav.on{color:var(--a);text-shadow:0 0 12px var(--a);transform:scale(1.15)}
+.empty{color:var(--mut);padding:28px;text-align:center;grid-column:1/-1}
+.share{display:flex;gap:10px;flex-wrap:wrap;margin-top:6px}
+footer{padding:34px 4vw;text-align:center;color:var(--mut);border-top:1px solid var(--line);font-size:.88rem}
+.modal{position:fixed;inset:0;z-index:50;display:none;place-items:center;background:rgba(5,2,4,.78);backdrop-filter:blur(8px);padding:20px}
+.modal.open{display:grid}
+.box{width:min(400px,100%);padding:30px;border-radius:24px;background:#150b0f;border:1px solid var(--a);box-shadow:0 0 60px rgba(255,46,99,.45);text-align:center;animation:pop .3s}
+@keyframes pop{from{transform:scale(.88);opacity:0}}
+.box h3{font-family:Bungee,sans-serif;margin-bottom:6px}.box p{color:var(--mut);margin-bottom:18px}
+.sb{display:block;width:100%;padding:13px;margin-bottom:12px;border-radius:14px;font-weight:800;background:var(--panel);border:1px solid var(--line)}
+.sb:hover{border-color:var(--b)}.x{background:none;color:var(--mut);margin-top:4px}
+#toast{position:fixed;bottom:calc(20px + env(safe-area-inset-bottom));left:50%;transform:translate(-50%,140px);padding:12px 20px;border-radius:999px;background:#150b0f;border:1px solid var(--b);transition:transform .35s;z-index:60;max-width:92vw;text-align:center}
+#toast.show{transform:translate(-50%,0)}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<canvas id="fx" aria-hidden="true"></canvas>
+<nav>
+  <a class="logo" href="#top" aria-label="DoomFilms home"><img src="icon.svg" alt=""><span>DOOMFILMS<small>by Raorish Dev</small></span></a>
+  <button class="btn" id="loginBtn">Log in</button>
+</nav>
+
+<header class="hero" id="top">
+  <img src="icon.svg" alt="DoomFilms logo">
+  <h1>DOOMFILMS</h1>
+  <div class="by">by Raorish Dev</div>
+  <p>Free movies, anime, live TV, AI tools and dev tools. One hub, all in your pocket.</p>
+  <div class="cta"><a class="btn" href="#explore">Start exploring</a><button class="btn ghost" id="rnd">Surprise me</button></div>
+</header>
+
+<section>
+  <div class="pick" id="pick"></div>
+</section>
+
+<section id="explore">
+  <h2>Explore</h2>
+  <div class="bar">
+    <input id="q" type="search" placeholder="Search movies, anime, tools…" aria-label="Search">
+    <div id="tabs"></div>
+  </div>
+  <div class="grid" id="grid"></div>
+</section>
+
+<section>
+  <h2>Share DoomFilms</h2>
+  <div class="share">
+    <button class="btn" id="shWa">WhatsApp</button><button class="btn ghost" id="shTg">Telegram</button><button class="btn ghost" id="shCp">Copy link</button>
+  </div>
+</section>
+
+<footer>© 2026 Raorish Dev · DoomFilms links to official sources and does not host any content.</footer>
+
+<div class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="mt">
+  <div class="box"><h3 id="mt">Join DoomFilms</h3><p>Log in to keep your favourites safe.</p>
+    <button class="sb" data-p="google">Continue with Google</button>
+    <button class="sb" data-p="github">Continue with GitHub</button>
+    <button class="x" id="closeM">Not now</button></div>
+</div>
+<div id="toast" role="status"></div>
+
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+<script>
+/* ===== 1) ADD YOUR LINKS HERE =====
+   Copy one line, change the values. c = category, e = emoji, t = title, d = description, u = link.
+   New category? Just write a new name in c, the tab appears automatically. */
+const LINKS=[
+{t:"YouTube Movies",c:"Movies",e:"🎬",d:"Free movies with ads, officially on YouTube.",u:"https://www.youtube.com/movies"},
+{t:"Tubi",c:"Movies",e:"🍿",d:"Big free catalogue of films and shows.",u:"https://tubitv.com"},
+{t:"Plex Free Movies",c:"Movies",e:"🎞️",d:"Free movies and live TV from Plex.",u:"https://watch.plex.tv"},
+{t:"Internet Archive Films",c:"Movies",e:"🏛️",d:"Public-domain classics, free forever.",u:"https://archive.org/details/movies"},
+{t:"MX Player",c:"Movies",e:"▶️",d:"Free Indian movies, series and originals.",u:"https://www.mxplayer.in"},
+{t:"Crunchyroll",c:"Anime",e:"🍥",d:"Official anime, with a free tier.",u:"https://www.crunchyroll.com"},
+{t:"RetroCrush",c:"Anime",e:"👾",d:"Classic anime, free with ads.",u:"https://www.retrocrush.tv"},
+{t:"Pluto TV",c:"Live TV",e:"📺",d:"Free live channels, 24/7.",u:"https://pluto.tv"},
+{t:"Samsung TV Plus",c:"Live TV",e:"📡",d:"Free live TV channels on any device.",u:"https://www.samsungtvplus.com"},
+{t:"Raorish Air",c:"AI Tools",e:"⚡",d:"The free AI tool made by Raorish.",u:"http://raorish-air-app.onrender.com"},
+{t:"Google AI Studio",c:"AI Tools",e:"🧠",d:"Try Gemini models for free.",u:"https://aistudio.google.com"},
+{t:"Hugging Face Spaces",c:"AI Tools",e:"🤗",d:"Thousands of free AI demos.",u:"https://huggingface.co/spaces"},
+{t:"vscode.dev",c:"Dev Tools",e:"💻",d:"VS Code inside your browser.",u:"https://vscode.dev"},
+{t:"GitHub",c:"Dev Tools",e:"🐙",d:"Host and share your code.",u:"https://github.com"},
+{t:"Render",c:"Dev Tools",e:"🚀",d:"Deploy web apps on a free plan.",u:"https://render.com"}
+];
+/* ===== 2) FIREBASE LOGIN: paste your config from Firebase console ===== */
+const FIREBASE_CONFIG={apiKey:"",authDomain:"",projectId:"",appId:""};
+
+const $=s=>document.querySelector(s),grid=$("#grid"),qi=$("#q");
+const store={get(k,d){try{return JSON.parse(localStorage.getItem(k))||d}catch(e){return d}},set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}};
+let favs=store.get("df_fav",[]),recent=store.get("df_rec",[]),cat="All",auth=null;
+const cats=["All","Favourites","Recent",...new Set(LINKS.map(l=>l.c))];
+function toast(m){const t=$("#toast");t.textContent=m;t.classList.add("show");clearTimeout(toast.i);toast.i=setTimeout(()=>t.classList.remove("show"),3000)}
+function track(u){recent=[u,...recent.filter(x=>x!==u)].slice(0,12);store.set("df_rec",recent)}
+function render(){
+  const q=qi.value.trim().toLowerCase();
+  let list=LINKS.filter(l=>(l.t+l.d+l.c).toLowerCase().includes(q));
+  if(cat==="Favourites")list=list.filter(l=>favs.includes(l.u));
+  else if(cat==="Recent")list=recent.map(u=>list.find(l=>l.u===u)).filter(Boolean);
+  else if(cat!=="All")list=list.filter(l=>l.c===cat);
+  grid.innerHTML="";
+  if(!list.length){grid.innerHTML='<p class="empty">'+(cat==="Favourites"?"No favourites yet. Tap the heart on any card.":cat==="Recent"?"Nothing opened yet.":"Nothing matches. Try another word.")+"</p>";return}
+  list.forEach(l=>{
+    const d=document.createElement("div");d.className="card";
+    const on=favs.includes(l.u);
+    d.innerHTML=`<button class="fav${on?" on":""}" aria-label="Favourite ${l.t}" aria-pressed="${on}">♥</button><a class="go" href="${l.u}" target="_blank" rel="noopener noreferrer"><div class="em">${l.e}</div><h3>${l.t}</h3><p>${l.d}</p><span class="tag">${l.c}</span></a>`;
+    d.querySelector(".go").onclick=()=>track(l.u);
+    d.querySelector(".fav").onclick=e=>{favs=favs.includes(l.u)?favs.filter(x=>x!==l.u):[...favs,l.u];store.set("df_fav",favs);if(cat==="Favourites")render();else{e.currentTarget.classList.toggle("on");e.currentTarget.setAttribute("aria-pressed",favs.includes(l.u))}};
+    grid.appendChild(d);
+  });
+}
+$("#tabs").innerHTML=cats.map(c=>`<button class="tab${c===cat?" on":""}" data-c="${c}">${c==="Favourites"?"♥ Favourites":c}</button>`).join("");
+$("#tabs").onclick=e=>{const c=e.target.dataset.c;if(!c)return;cat=c;document.querySelectorAll(".tab").forEach(b=>b.classList.toggle("on",b.dataset.c===c));render()};
+qi.oninput=render;render();
+// pick of the day
+const dp=LINKS[Math.floor(Date.now()/864e5)%LINKS.length];
+$("#pick").innerHTML=`<div class="em">${dp.e}</div><div><b>Pick of the day</b><h3>${dp.t}</h3><p style="color:var(--mut)">${dp.d}</p></div><a class="btn" href="${dp.u}" target="_blank" rel="noopener noreferrer">Open</a>`;
+$("#rnd").onclick=()=>{const l=LINKS[Math.floor(Math.random()*LINKS.length)];track(l.u);toast("Opening "+l.t+"…");setTimeout(()=>open(l.u,"_blank","noopener"),600)};
+// share
+const url=location.href.split("#")[0],msg="Check out DoomFilms by Raorish Dev: free movies, anime and AI tools";
+$("#shWa").onclick=()=>open("https://wa.me/?text="+encodeURIComponent(msg+" "+url),"_blank","noopener");
+$("#shTg").onclick=()=>open("https://t.me/share/url?url="+encodeURIComponent(url)+"&text="+encodeURIComponent(msg),"_blank","noopener");
+$("#shCp").onclick=()=>{(navigator.clipboard?navigator.clipboard.writeText(url):Promise.reject()).then(()=>toast("Link copied")).catch(()=>toast("Copy failed. Copy it from the address bar."))};
+// login
+const modal=$("#modal"),lb=$("#loginBtn");
+const openM=()=>{modal.classList.add("open");modal.querySelector(".sb").focus()},closeM=()=>modal.classList.remove("open");
+lb.onclick=()=>auth&&auth.currentUser?auth.signOut().then(()=>toast("Logged out")):openM();
+$("#closeM").onclick=closeM;modal.onclick=e=>{if(e.target===modal)closeM()};
+addEventListener("keydown",e=>{if(e.key==="Escape")closeM()});
+try{if(FIREBASE_CONFIG.apiKey&&window.firebase){firebase.initializeApp(FIREBASE_CONFIG);auth=firebase.auth();
+  auth.onAuthStateChanged(u=>{lb.textContent=u?(u.displayName||"Account").split(" ")[0]+" · Log out":"Log in"})}}catch(e){}
+document.querySelectorAll(".sb").forEach(b=>b.onclick=()=>{
+  if(!auth){closeM();toast("Login is ready. Add your Firebase config to switch it on.");return}
+  const p=b.dataset.p==="google"?new firebase.auth.GoogleAuthProvider():new firebase.auth.GithubAuthProvider();
+  auth.signInWithPopup(p).then(()=>{closeM();toast("Welcome to DoomFilms")}).catch(e=>toast(e.message))});
+// PWA
+if("serviceWorker"in navigator)addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}));
+// ember particle background
+(function(){const c=$("#fx"),x=c.getContext("2d");let w,h,P=[];const rm=matchMedia("(prefers-reduced-motion:reduce)").matches;
+function size(){w=c.width=innerWidth;h=c.height=innerHeight;P=Array.from({length:Math.min(60,Math.floor(w*h/20000))},()=>({x:Math.random()*w,y:Math.random()*h,v:.3+Math.random()*.8,r:1+Math.random()*1.8,k:Math.random()<.5}))}
+function tick(){x.clearRect(0,0,w,h);for(const p of P){p.y-=p.v;p.x+=Math.sin(p.y/40)*.4;if(p.y<-5){p.y=h+5;p.x=Math.random()*w}
+x.fillStyle=p.k?"rgba(255,46,99,.75)":"rgba(255,154,31,.75)";x.shadowColor=x.fillStyle;x.shadowBlur=10;x.beginPath();x.arc(p.x,p.y,p.r,0,6.28);x.fill()}
+if(!rm)requestAnimationFrame(tick)}
+size();tick();addEventListener("resize",size)})();
+</script>
+</body>
+</html>
