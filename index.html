@@ -136,6 +136,19 @@ footer{padding:22px 0 34px;text-align:center;color:#7aa392;font-size:.85rem;bord
   transition:transform .3s;z-index:60;font-family:'JetBrains Mono',monospace;font-size:.9rem;max-width:92vw;text-align:center}
 #toast.show{transform:translate(-50%,0)}
 
+/* update notes */
+.upd{margin:18px 0 6px;display:grid;gap:10px}
+.upd-h{font-family:'JetBrains Mono',monospace;font-weight:700;font-size:.85rem;color:var(--r)}
+.upd-h::before{content:"> ";color:var(--a)}
+.note{padding:13px 16px;border:1px solid var(--line);border-left:4px solid var(--a);border-radius:0 6px 6px 0;background:var(--panel);font-size:.95rem;color:var(--ink)}
+.note b{color:#fff}
+.note.hot{border-left-color:var(--r);box-shadow:var(--rglow);background:linear-gradient(90deg,rgba(255,31,61,.12),var(--panel))}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.chips span{font-family:'JetBrains Mono',monospace;font-size:.8rem;color:var(--a);border:1px solid var(--line);background:#000;padding:2px 9px;border-radius:3px}
+.note.hot .chips span{color:#ffd9de;border-color:rgba(255,31,61,.45)}
+.cnotes{padding:12px 14px 4px;display:grid;gap:8px;border-top:1px solid var(--line)}
+.cnotes .note{padding:9px 13px;font-size:.9rem;border-left-color:var(--r)}
+
 @media(max-width:560px){
   body{font-size:16px}
   .pin{flex-wrap:wrap}
@@ -151,6 +164,29 @@ footer{padding:22px 0 34px;text-align:center;color:#7aa392;font-size:.85rem;bord
 
 <div class="wrap">
   <div class="top"><span><i class="dot"></i>ONLINE</span><span>by <b>RAORISH DEV</b></span></div>
+
+  <section class="upd" aria-label="Updates">
+    <div class="upd-h">UPDATES</div>
+    <div class="note hot">
+      🪔 <b>Diwali Special Update aa raha hai</b>
+      <div class="chips">
+        <span>Sports links</span><span>Cartoon links</span><span>P-Stream Forks</span><span>Stream Lounges</span><span>Streaming Apps</span><span>TV Streaming</span><span>Download Sites (movies, anime etc.)</span>
+      </div>
+      <div class="chips">
+        <span>Anime Streaming: alag option, sirf anime lovers ke liye</span>
+        <span>Live TV / Sports: alag se, sirf cricket, IPL, FIFA, WWE aur baaki sports ke liye</span>
+      </div>
+    </div>
+    <div class="note">🎵 <b>Music / Podcasts / Radio</b> bhi add hone wala hai.</div>
+    <div class="note">🎮 <b>Gaming / Emulation</b>: sirf gamers ke liye. 📚 <b>Educational</b>: sirf students ke liye.</div>
+    <div class="note">
+      🧰 <b>Important Free Tools</b> section bhi aane wala hai. Big update.
+      <div class="chips">
+        <span>System tools</span><span>File tools</span><span>Internet tools</span><span>Social media tools</span><span>Gaming tools</span><span>Image tools</span><span>Audio tools</span><span>Developer tools</span>
+      </div>
+      <div style="margin-top:8px">🇮🇳 <b>Hindi translate</b> ka option bhi aayega, Hindi walon ke liye.</div>
+    </div>
+  </section>
 
   <header class="hero">
     <h1 data-t="DOOMFILMS">DOOMFILMS</h1>
@@ -187,39 +223,48 @@ footer{padding:22px 0 34px;text-align:center;color:#7aa392;font-size:.85rem;bord
    New category name = new Link Center automatically */
 const LINKS=[
   {t:"Raorish Air", c:"AI Tools", e:"⚡", d:"Free AI tool made by Raorish.", u:"http://raorish-air-app.onrender.com", pinned:true},
-  {t:"Free Latest Movies 2", c:"Movies/ ANIME / LIVE TV", e:"🎬", d:"Free movies index.", u:"https://www.rivestream.app/"},
-  {t:"FILM LATEST 2", c:"Movies /ANIME / LIVE TV", e:"🎬", d:"WEBLINK 1. MAST HE", u:"https://watch.corsflix.net/"},
-  {t:"Free Latest Movies", c:"Movies/ ANIME / LIVE TV", e:"🎬", d:"Free movies index.", u:"https://www.movy.sx/"},
-  {t:"Latest Movies 2", c:"Movies /ANIME / LIVE TV", e:"🎬", d:"Server/Web 2. Achha hai.", u:"https://cinejoy.pk/"},
-  {t:"Latest Films", c:"Movies /ANIME / LIVE TV", e:"🎬", d:"Web/Server 3. Achhi hai.", u:"https://popcornmovies.st/"},
-  {t:"FILM LATEST", c:"Movies /ANIME / LIVE TV", e:"🎬", d:"WEBLINK 5. MAST HE", u:"https://atlantic.bz/"},
-  {t:"Latest Films 2", c:"Movies /ANIME / LIVE TV", e:"🎬", d:"Web/Server 6. Achhi hai.", u:"https://fprime.at/"},
-  {t:"Latest Films 3", c:"Movies /ANIME / LIVE TV", e:"🎬", d:"Web/Server 7. Achhi hai.", u:"https://toflix.co/"},
-  {t:"Latest Films 4", c:"Movies /ANIME / LIVE TV", e:"🎬", d:"Web/Server 8. Achhi hai.", u:"https://dulo.mov/"},
-  {t:"Latest Films 5", c:"Movies /ANIME / LIVE TV", e:"🎬", d:"Web/Server 9. Achhi hai.", u:"https://beta.way2movies.live/"},
-  {t:"Latest Films 6", c:"Movies /ANIME / LIVE TV", e:"🎬", d:"Web/Server 10. Achhi hai.", u:"https://movienig.ht/"},
-  {t:"Latest Films 7", c:"Movies /ANIME / LIVE TV", e:"🎬", d:"Web/Server 11. Achhi hai.", u:"https://reelix.ac/"},
-  {t:"DoomFilm Special 2", c:"Movies /ANIME / LIVE TV", e:"🔥", d:"Server 7. Jo achha lage use karo, sab working hai.", u:"https://fmhy.net/video/#p-stream-forks"},
-  {t:"DoomFilm Special 3", c:"Movies /ANIME / LIVE TV", e:"🔥", d:"Server 8. Jo achha lage use karo, sab working hai.", u:"https://shuttletv.su/"},
-  {t:"DoomFilm Special 5", c:"Movies /ANIME / LIVE TV", e:"🔥", d:"Server 9. Jo achha lage use karo, sab working hai.", u:"https://flystream.net/"},
-  {t:"DoomFilm Special 6", c:"Movies /ANIME / LIVE TV", e:"🔥", d:"Server 10. Jo achha lage use karo, sab working hai.", u:"https://vivarium.su/"},
-  {t:"DoomFilm Special 7", c:"Movies /ANIME / LIVE TV", e:"🔥", d:"Server 11. Jo achha lage use karo, sab working hai.", u:"https://7movies.ac/"},
-  {t:"DoomFilm Special 8", c:"Movies /ANIME / LIVE TV", e:"🔥", d:"Server 12. Jo achha lage use karo, sab working hai.", u:"https://flixer.gd/"},
-  {t:"DoomFilm Special 9", c:"Movies /ANIME / LIVE TV", e:"🔥", d:"Server 13. Jo achha lage use karo, sab working hai.", u:"https://hexa.su/"},
-  {t:"DoomFilm Special 10", c:"Movies /ANIME / LIVE TV", e:"🔥", d:"Server 14. Jo achha lage use karo, sab working hai.", u:"https://meowtv.ru/"},
-  {t:"DoomFilm Special 11", c:"Movies /ANIME / LIVE TV", e:"🔥", d:"Server 15. Jo achha lage use karo, sab working hai.", u:"https://flickystream.mov/"},
-  {t:"DoomFilm Special 12", c:"Movies /ANIME / LIVE TV", e:"🔥", d:"Server 16. Jo achha lage use karo, sab working hai.", u:"https://sweetfox.app/"},
-  {t:"DoomFilm Special 13", c:"Movies /ANIME / LIVE TV", e:"👀", d:"Server 17. Jo achha lage use karo, sab working hai.", u:"https://67movies.st/"},
-  {t:"DoomFilm Special 15", c:"Movies /ANIME / LIVE TV", e:"😜", d:"Server 18. Jo achha lage use karo, sab working hai.", u:"https://cinelite.xyz/"},
-  {t:"DoomFilm Special 16", c:"Movies /ANIME / LIVE TV", e:"😜", d:"Server 19. Jo achha lage use karo, sab working hai.", u:"https://ghostflix.st/"},
-  {t:"DoomFilm Special 17", c:"Movies /ANIME / LIVE TV", e:"😜", d:"Server 20. Jo achha lage use karo, sab working hai.", u:"https://redflix.one/"},
-  {t:"DoomFilm Special 18", c:"Movies /ANIME / LIVE TV", e:"😜", d:"Server 21. Jo achha lage use karo, sab working hai.", u:"https://pantyflix.com/"},
-  {t:"DoomFilm Special 19", c:"Movies /ANIME / LIVE TV", e:"😜", d:"Server 22. Jo achha lage use karo, sab working hai.", u:"https://arrowtv.net/"},
-  {t:"DoomFilm Special 20", c:"Movies /ANIME / LIVE TV", e:"😜", d:"Server 23. Jo achha lage use karo, sab working hai.", u:"https://www.cinezo.st/"},
-  {t:"DoomFilm Special 21", c:"Movies /ANIME / LIVE TV", e:"😜", d:"Server 24. Jo achha lage use karo, sab working hai.", u:"https://chillflix.lol/"},
-  {t:"DoomFilm Special 22", c:"Movies /ANIME / LIVE TV", e:"😜", d:"Server 25. Jo achha lage use karo, sab working hai.", u:"https://vuflix.co/"},
-  {t:"DoomFilm Special 23", c:"Movies /ANIME / LIVE TV", e:"😜", d:"Server 26. Jo achha lage use karo, sab working hai.", u:"https://coreflix.tv/"},
+  {t:"Free Latest Movies 2", c:"Movies", e:"🎬", d:"Free movies index.", u:"https://www.rivestream.app/"},
+  {t:"FILM LATEST 2", c:"Movies", e:"🎬", d:"WEBLINK 1. MAST HE", u:"https://watch.corsflix.net/"},
+  {t:"Free Latest Movies", c:"Movies", e:"🎬", d:"Free movies index.", u:"https://www.movy.sx/"},
+  {t:"Latest Movies 2", c:"Movies", e:"🎬", d:"Server/Web 2. Achha hai.", u:"https://cinejoy.pk/"},
+  {t:"Latest Films", c:"Movies", e:"🎬", d:"Web/Server 3. Achhi hai.", u:"https://popcornmovies.st/"},
+  {t:"FILM LATEST", c:"Movies", e:"🎬", d:"WEBLINK 5. MAST HE", u:"https://atlantic.bz/"},
+  {t:"Latest Films 2", c:"Movies", e:"🎬", d:"Web/Server 6. Achhi hai.", u:"https://fprime.at/"},
+  {t:"Latest Films 3", c:"Movies", e:"🎬", d:"Web/Server 7. Achhi hai.", u:"https://toflix.co/"},
+  {t:"Latest Films 4", c:"Movies", e:"🎬", d:"Web/Server 8. Achhi hai.", u:"https://dulo.mov/"},
+  {t:"Latest Films 5", c:"Movies", e:"🎬", d:"Web/Server 9. Achhi hai.", u:"https://beta.way2movies.live/"},
+  {t:"Latest Films 6", c:"Movies", e:"🎬", d:"Web/Server 10. Achhi hai.", u:"https://movienig.ht/"},
+  {t:"Latest Films 7", c:"Movies", e:"🎬", d:"Web/Server 11. Achhi hai.", u:"https://reelix.ac/"},
+  {t:"DoomFilm Special 2", c:"Movies", e:"🔥", d:"Server 7. Jo achha lage use karo, sab working hai.", u:"https://fmhy.net/video/#p-stream-forks"},
+  {t:"DoomFilm Special 3", c:"Movies", e:"🔥", d:"Server 8. Jo achha lage use karo, sab working hai.", u:"https://shuttletv.su/"},
+  {t:"DoomFilm Special 5", c:"Movies", e:"🔥", d:"Server 9. Jo achha lage use karo, sab working hai.", u:"https://flystream.net/"},
+  {t:"DoomFilm Special 6", c:"Movies", e:"🔥", d:"Server 10. Jo achha lage use karo, sab working hai.", u:"https://vivarium.su/"},
+  {t:"DoomFilm Special 7", c:"Movies", e:"🔥", d:"Server 11. Jo achha lage use karo, sab working hai.", u:"https://7movies.ac/"},
+  {t:"DoomFilm Special 8", c:"Movies", e:"🔥", d:"Server 12. Jo achha lage use karo, sab working hai.", u:"https://flixer.gd/"},
+  {t:"DoomFilm Special 9", c:"Movies", e:"🔥", d:"Server 13. Jo achha lage use karo, sab working hai.", u:"https://hexa.su/"},
+  {t:"DoomFilm Special 10", c:"Movies", e:"🔥", d:"Server 14. Jo achha lage use karo, sab working hai.", u:"https://meowtv.ru/"},
+  {t:"DoomFilm Special 11", c:"Movies", e:"🔥", d:"Server 15. Jo achha lage use karo, sab working hai.", u:"https://flickystream.mov/"},
+  {t:"DoomFilm Special 12", c:"Movies", e:"🔥", d:"Server 16. Jo achha lage use karo, sab working hai.", u:"https://sweetfox.app/"},
+  {t:"DoomFilm Special 13", c:"Movies", e:"👀", d:"Server 17. Jo achha lage use karo, sab working hai.", u:"https://67movies.st/"},
+  {t:"DoomFilm Special 15", c:"Movies", e:"😜", d:"Server 18. Jo achha lage use karo, sab working hai.", u:"https://cinelite.xyz/"},
+  {t:"DoomFilm Special 16", c:"Movies", e:"😜", d:"Server 19. Jo achha lage use karo, sab working hai.", u:"https://ghostflix.st/"},
+  {t:"DoomFilm Special 17", c:"Movies", e:"😜", d:"Server 20. Jo achha lage use karo, sab working hai.", u:"https://redflix.one/"},
+  {t:"DoomFilm Special 18", c:"Movies", e:"😜", d:"Server 21. Jo achha lage use karo, sab working hai.", u:"https://pantyflix.com/"},
+  {t:"DoomFilm Special 19", c:"Movies", e:"😜", d:"Server 22. Jo achha lage use karo, sab working hai.", u:"https://arrowtv.net/"},
+  {t:"DoomFilm Special 20", c:"Movies", e:"😜", d:"Server 23. Jo achha lage use karo, sab working hai.", u:"https://www.cinezo.st/"},
+  {t:"DoomFilm Special 21", c:"Movies", e:"😜", d:"Server 24. Jo achha lage use karo, sab working hai.", u:"https://chillflix.lol/"},
+  {t:"DoomFilm Special 22", c:"Movies", e:"😜", d:"Server 25. Jo achha lage use karo, sab working hai.", u:"https://vuflix.co/"},
+  {t:"DoomFilm Special 23", c:"Movies", e:"😜", d:"Server 26. Jo achha lage use karo, sab working hai.", u:"https://coreflix.tv/"},
 ];
+
+/* notes shown inside a Link Center (edit text here) */
+const NOTES={"Movies":[
+  "🛡️ PC ya MacBook par chala rahe ho to AdBlocker use karo (uBlock Origin ya koi bhi AdBlocker).",
+  "🔜 50 naye links next update mein jald aayenge.",
+  "🎞️ 4K available hai."
+]};
+/* any category starting with "Movies" goes into the same center */
+const catKey=c=>/^\s*movies/i.test(c)?"Movies":String(c).trim();
 
 /* nice titles for categories (optional) */
 const TITLES={"Movies":"MOVIES / ANIME / LIVE TV LINK CENTER","Anime":"ANIME LINK CENTER","Live TV":"LIVE TV LINK CENTER","AI Tools":"AI TOOLS CENTER","Dev Tools":"DEV TOOLS CENTER"};
@@ -240,13 +285,14 @@ function render(){
   const q=$("#qi").value.trim().toLowerCase();
   const list=LINKS.filter(l=>!l.pinned && (l.t+" "+l.d+" "+l.c).toLowerCase().includes(q));
   const groups={};
-  list.forEach(l=>(groups[l.c]=groups[l.c]||[]).push(l));
+  list.forEach(l=>{const k=catKey(l.c);(groups[k]=groups[k]||[]).push(l)});
   const box=$("#centers");
   const names=Object.keys(groups);
   if(!names.length){box.innerHTML='<p class="empty">[ kuch nahi mila ]</p>';return}
   box.innerHTML=names.map((c,i)=>`
     <details ${(q||i===0)?"open":""}>
       <summary><span class="ar">▶</span>${esc(TITLES[c]||c.toUpperCase()+" CENTER")}<span class="n">${groups[c].length}</span></summary>
+      ${NOTES[c]?`<div class="cnotes">${NOTES[c].map(n=>`<div class="note">${esc(n)}</div>`).join("")}</div>`:""}
       <div class="rows">${groups[c].map(l=>`
         <a class="row" href="${esc(l.u)}" target="_blank" rel="noopener noreferrer">
           <span class="em">${l.e}</span><span class="rt">${esc(l.t)}</span><span class="rd">${esc(l.d)}</span><span class="go">OPEN</span>
