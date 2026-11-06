@@ -124,14 +124,11 @@ footer{padding:34px 4vw;text-align:center;color:var(--mut);border-top:1px solid 
 const LINKS=[
 {t:"Raorish Air",c:"AI Tools",e:"⚡",d:"The free AI tool made by Raorish.",u:"http://raorish-air-app.onrender.com"},
 {t:"free latest movies",c:"movie web 1",e:"😎",d:"free movie by doomfilms by rishabh.",u:"https://www.movy.sx/"},
-{t:"vscode.dev",c:"Dev Tools",e:"💻",d:"VS Code inside your browser.",u:"https://vscode.dev"},
-{t:"GitHub",c:"Dev Tools",e:"🐙",d:"Host and share your code.",u:"https://github.com"},
-{t:"Render",c:"Dev Tools",e:"🚀",d:"Deploy web apps on a free plan.",u:"https://render.com"}
 ];
 /* ===== 2) FIREBASE LOGIN: paste your config from Firebase console ===== */
 const FIREBASE_CONFIG={apiKey:"",authDomain:"",projectId:"",appId:""};
 
-const s==>document.querySelector(s),grid=$("#grid"),qi=$("#qi");
+const s=>document.querySelector(s),grid=$("#grid"),qi=$("#qi");
 const store={get(k,d){try{return JSON.parse(localStorage.getItem(k))||d}catch(e){return d}},set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}};
 
 // 🔥 AUTOMATIC CACHE RESET LOGIC: 
