@@ -133,7 +133,7 @@ const FIREBASE_CONFIG={apiKey:"",authDomain:"",projectId:"",appId:""};
 
 const $=s=>document.querySelector(s),grid=$("#grid"),qi=$("#q");
 const store={get(k,d){try{return JSON.parse(localStorage.getItem(k))||d}catch(e){return d}},set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}};
-let favs=store.get("df_fav",[]),recent=store.get("df_rec",[]),cat="All",auth=null;
+let favs=store.get("df_fav_v2",[]),recent=store.get("df_rec_v2",[]),cat="All",auth=null;
 const cats=["All","Favourites","Recent",...new Set(LINKS.map(l=>l.c))];
 function toast(m){const t=$("#toast");t.textContent=m;t.classList.add("show");clearTimeout(toast.i);toast.i=setTimeout(()=>t.classList.remove("show"),3000)}
 function track(u){recent=[u,...recent.filter(x=>x!==u)].slice(0,12);store.set("df_rec",recent)}
