@@ -42,8 +42,8 @@ h2{font-family:Bungee,sans-serif;font-size:clamp(1.4rem,5vw,2.1rem);margin-botto
 .pick{display:flex;gap:16px;align-items:center;padding:20px;border-radius:22px;border:1px solid var(--a);background:linear-gradient(120deg,rgba(255,46,99,.18),rgba(139,92,255,.14));box-shadow:0 0 40px rgba(255,46,99,.25);flex-wrap:wrap}
 .pick .em{font-size:2.6rem}.pick div{flex:1;min-width:180px}.pick b{color:var(--b)}
 .bar{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:22px}
-#q{flex:1 1 100%;padding:13px 18px;border-radius:999px;border:1px solid var(--line);background:var(--panel);color:var(--ink);font:inherit}
-#q:focus{border-color:var(--b);outline:0;box-shadow:0 0 18px rgba(255,154,31,.4)}
+#qi{flex:1 1 100%;padding:13px 18px;border-radius:999px;border:1px solid var(--line);background:var(--panel);color:var(--ink);font:inherit}
+#qi:focus{border-color:var(--b);outline:0;box-shadow:0 0 18px rgba(255,154,31,.4)}
 #tabs{display:flex;gap:8px;overflow-x:auto;padding-bottom:4px;flex:1;scrollbar-width:none}
 .tab{flex:none;padding:9px 15px;border-radius:999px;background:var(--panel);border:1px solid var(--line);color:var(--mut);font-weight:700}
 .tab.on{color:#0a0608;background:var(--b);border-color:var(--b);box-shadow:0 0 18px rgba(255,154,31,.6)}
@@ -53,7 +53,7 @@ h2{font-family:Bungee,sans-serif;font-size:clamp(1.4rem,5vw,2.1rem);margin-botto
 .go{display:flex;flex-direction:column;gap:6px;padding:20px;height:100%}
 .em{font-size:2rem}.card h3{font-size:1.08rem;padding-right:34px}.card p{color:var(--mut);font-size:.92rem;flex:1}
 .tag{font-size:.76rem;font-weight:800;color:var(--b)}
-.fav{position:absolute;top:12px;right:12px;width:36px;height:36px;border-radius:50%;background:rgba(0,0,0,.35);font-size:1.15rem;color:var(--mut);transition:.2s}
+.fav{position:absolute;top:12px;right:12px;width:36px;height:36px;border-radius:50%;background:rgba(0,0,0,.35);font-size:1.15rem;color:var(--mut);transition:.2s;z-index:2}
 .fav.on{color:var(--a);text-shadow:0 0 12px var(--a);transform:scale(1.15)}
 .empty{color:var(--mut);padding:28px;text-align:center;grid-column:1/-1}
 .share{display:flex;gap:10px;flex-wrap:wrap;margin-top:6px}
@@ -92,7 +92,7 @@ footer{padding:34px 4vw;text-align:center;color:var(--mut);border-top:1px solid 
 <section id="explore">
   <h2>Explore</h2>
   <div class="bar">
-    <input id="q" type="search" placeholder="Search movies, anime, tools…" aria-label="Search">
+    <input id="qi" type="search" placeholder="Search movies, anime, tools…" aria-label="Search">
     <div id="tabs"></div>
   </div>
   <div class="grid" id="grid"></div>
@@ -119,8 +119,8 @@ footer{padding:34px 4vw;text-align:center;color:var(--mut);border-top:1px solid 
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
 <script>
 /* ===== 1) ADD YOUR LINKS HERE =====
-   Copy one line, change the values. c = category, e = emoji, t = title, d = description, u = link.
-   New category? Just write a new name in c, the tab appears automatically. */
+    Copy one line, change the values. c = category, e = emoji, t = title, d = description, u = link.
+    New category? Just write a new name in c, the tab appears automatically. */
 const LINKS=[
 {t:"Raorish Air",c:"AI Tools",e:"⚡",d:"The free AI tool made by Raorish.",u:"http://raorish-air-app.onrender.com"},
 {t:"free latest movies",c:"movie web 1",e:"😎",d:"free movie by doomfilms by rishabh.",u:"https://www.movy.sx/"},
@@ -133,50 +133,53 @@ const store={get(k,d){try{return JSON.parse(localStorage.getItem(k))||d}catch(e)
 
 let favs=store.get("df_fav",[]), recent=store.get("df_rec",[]), cat="All", auth=null;
 
-
 const cats=["All","Favourites","Recent",...new Set(LINKS.map(l=>l.c))];
 function toast(m){const t=$("#toast");t.textContent=m;t.classList.add("show");clearTimeout(toast.i);toast.i=setTimeout(()=>t.classList.remove("show"),3000)}
 function track(u){recent=[u,...recent.filter(x=>x!==u)].slice(0,12);store.set("df_rec",recent)}
+
 function render(){
   const q=qi.value.trim().toLowerCase();
   let list=LINKS.filter(l=>(l.t+l.d+l.c).toLowerCase().includes(q));
   if(cat==="Favourites")list=list.filter(l=>favs.includes(l.u));
   else if(cat==="Recent")list=recent.map(u=>list.find(l=>l.u===u)).filter(Boolean);
   else if(cat!=="All")list=list.filter(l=>l.c===cat);
+  
   grid.innerHTML="";
-  if(!list.length){grid.innerHTML='<p class="empty">'+(cat==="Favourites"?"No favourites yet. Tap the heart on any card.":cat==="Recent"?"Nothing opened yet.":"Nothing matches. Try another word.")+"</p>";return}
-  else {
-    grid.innerHTML = list.map(l => `
-      <a href="${l.u}" target="_blank" class="card">
-        <span>${l.e}</span>
-        <div>
-          <h3>${l.t}</h3>
-          <p>${l.d}</p>
-        </div>
-      </a>
-    `).join('');
+  if(!list.length){
+    grid.innerHTML='<p class="empty">'+(cat==="Favourites"?"No favourites yet. Tap the heart on any card.":cat==="Recent"?"Nothing opened yet.":"Nothing matches. Try another word.")+"</p>";
+    return;
   }
+  
   list.forEach(l=>{
     const d=document.createElement("div");d.className="card";
     const on=favs.includes(l.u);
     d.innerHTML=`<button class="fav${on?" on":""}" aria-label="Favourite ${l.t}" aria-pressed="${on}">♥</button><a class="go" href="${l.u}" target="_blank" rel="noopener noreferrer"><div class="em">${l.e}</div><h3>${l.t}</h3><p>${l.d}</p><span class="tag">${l.c}</span></a>`;
     d.querySelector(".go").onclick=()=>track(l.u);
-    d.querySelector(".fav").onclick=e=>{favs=favs.includes(l.u)?favs.filter(x=>x!==l.u):[...favs,l.u];store.set("df_fav",favs);if(cat==="Favourites")render();else{e.currentTarget.classList.toggle("on");e.currentTarget.setAttribute("aria-pressed",favs.includes(l.u))}};
+    d.querySelector(".fav").onclick=e=>{
+      favs=favs.includes(l.u)?favs.filter(x=>x!==l.u):[...favs,l.u];
+      store.set("df_fav",favs);
+      if(cat==="Favourites")render();
+      else{e.currentTarget.classList.toggle("on");e.currentTarget.setAttribute("aria-pressed",favs.includes(l.u))}
+    };
     grid.appendChild(d);
   });
 }
+
 $("#tabs").innerHTML=cats.map(c=>`<button class="tab${c===cat?" on":""}" data-c="${c}">${c==="Favourites"?"♥ Favourites":c}</button>`).join("");
 $("#tabs").onclick=e=>{const c=e.target.dataset.c;if(!c)return;cat=c;document.querySelectorAll(".tab").forEach(b=>b.classList.toggle("on",b.dataset.c===c));render()};
 qi.oninput=render;render();
+
 // pick of the day
 const dp=LINKS[Math.floor(Date.now()/864e5)%LINKS.length];
 $("#pick").innerHTML=`<div class="em">${dp.e}</div><div><b>Pick of the day</b><h3>${dp.t}</h3><p style="color:var(--mut)">${dp.d}</p></div><a class="btn" href="${dp.u}" target="_blank" rel="noopener noreferrer">Open</a>`;
 $("#rnd").onclick=()=>{const l=LINKS[Math.floor(Math.random()*LINKS.length)];track(l.u);toast("Opening "+l.t+"…");setTimeout(()=>open(l.u,"_blank","noopener"),600)};
+
 // share
 const url=location.href.split("#")[0],msg="Check out DoomFilms by Raorish Dev: free movies, anime and AI tools";
 $("#shWa").onclick=()=>open("https://wa.me/?text="+encodeURIComponent(msg+" "+url),"_blank","noopener");
 $("#shTg").onclick=()=>open("https://t.me/share/url?url="+encodeURIComponent(url)+"&text="+encodeURIComponent(msg),"_blank","noopener");
 $("#shCp").onclick=()=>{(navigator.clipboard?navigator.clipboard.writeText(url):Promise.reject()).then(()=>toast("Link copied")).catch(()=>toast("Copy failed. Copy it from the address bar."))};
+
 // login
 const modal=$("#modal"),lb=$("#loginBtn");
 const openM=()=>{modal.classList.add("open");modal.querySelector(".sb").focus()},closeM=()=>modal.classList.remove("open");
@@ -189,8 +192,10 @@ document.querySelectorAll(".sb").forEach(b=>b.onclick=()=>{
   if(!auth){closeM();toast("Login is ready. Add your Firebase config to switch it on.");return}
   const p=b.dataset.p==="google"?new firebase.auth.GoogleAuthProvider():new firebase.auth.GithubAuthProvider();
   auth.signInWithPopup(p).then(()=>{closeM();toast("Welcome to DoomFilms")}).catch(e=>toast(e.message))});
+
 // PWA
 if("serviceWorker"in navigator)addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}));
+
 // ember particle background
 (function(){const c=$("#fx"),x=c.getContext("2d");let w,h,P=[];const rm=matchMedia("(prefers-reduced-motion:reduce)").matches;
 function size(){w=c.width=innerWidth;h=c.height=innerHeight;P=Array.from({length:Math.min(60,Math.floor(w*h/20000))},()=>({x:Math.random()*w,y:Math.random()*h,v:.3+Math.random()*.8,r:1+Math.random()*1.8,k:Math.random()<.5}))}
