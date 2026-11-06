@@ -131,9 +131,21 @@ const LINKS=[
 /* ===== 2) FIREBASE LOGIN: paste your config from Firebase console ===== */
 const FIREBASE_CONFIG={apiKey:"",authDomain:"",projectId:"",appId:""};
 
-const $=s=>document.querySelector(s),grid=$("#grid"),qi=$("#q");
+const s==>document.querySelector(s),grid=$("#grid"),qi=$("#qi");
 const store={get(k,d){try{return JSON.parse(localStorage.getItem(k))||d}catch(e){return d}},set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}};
-let favs=store.get("df_fav_v2",[]),recent=store.get("df_rec_v2",[]),cat="All",auth=null;
+
+// 🔥 AUTOMATIC CACHE RESET LOGIC: 
+// Jab bhi aap LINKS array ka size change karoge (naya link daloge ya hataoge), 
+// toh yeh purani memory ko automatic clear kar dega taaki naye links sabhi ko turant dikhein.
+const CURRENT_VERSION = LINKS.length.toString();
+if (localStorage.getItem("df_version") !== CURRENT_VERSION) {
+    localStorage.removeItem("df_fav");
+    localStorage.removeItem("df_rec");
+    localStorage.setItem("df_version", CURRENT_VERSION);
+}
+
+let favs=store.get("df_fav",[]), recent=store.get("df_rec",[]), cat="All", auth=null;
+
 const cats=["All","Favourites","Recent",...new Set(LINKS.map(l=>l.c))];
 function toast(m){const t=$("#toast");t.textContent=m;t.classList.add("show");clearTimeout(toast.i);toast.i=setTimeout(()=>t.classList.remove("show"),3000)}
 function track(u){recent=[u,...recent.filter(x=>x!==u)].slice(0,12);store.set("df_rec",recent)}
