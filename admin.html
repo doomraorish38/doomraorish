@@ -14,7 +14,10 @@ h2{font:700 .9rem ui-monospace,Consolas,monospace;color:var(--r);margin:22px 0 8
 h2::before{content:"> ";color:var(--a)}
 button,input{font:inherit}
 input[type=email],input[type=password]{width:100%;padding:12px;margin:6px 0;background:#000;color:var(--a);border:1px solid var(--line);border-radius:4px}
-input:focus{outline:2px solid var(--a)}
+input:focus,select:focus{outline:2px solid var(--a)}
+.f{display:grid;gap:8px;background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:14px}
+.f input,.f select{width:100%;padding:11px;background:#000;color:var(--a);border:1px solid var(--line);border-radius:4px}
+.f .two{display:grid;grid-template-columns:1fr 90px;gap:8px}
 .btn{padding:10px 18px;border:2px solid var(--a);color:var(--a);background:none;border-radius:4px;font-weight:700;cursor:pointer}
 .btn:hover{background:var(--a);color:#000}
 .bar{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}
@@ -67,6 +70,20 @@ label.chk{display:flex;gap:5px;align-items:center;font-size:.85rem;color:var(--d
   <h2>DEVICES AND THEMES</h2>
   <div class="grid" id="dev"></div>
 
+  <h2>ADD NEW LINK</h2>
+  <div class="f">
+    <select id="c-cat" aria-label="Category"></select>
+    <input id="c-new" type="text" placeholder="New category name" hidden>
+    <div class="two"><input id="c-t" type="text" placeholder="Title (example: Cricket Live)" maxlength="80"><input id="c-e" type="text" placeholder="Emoji" maxlength="8"></div>
+    <input id="c-d" type="text" placeholder="Short description" maxlength="160">
+    <input id="c-u" type="url" placeholder="https://link.com">
+    <button class="btn" id="c-add" type="button">Add link</button>
+    <p id="c-msg" role="status" style="min-height:1.4em;font-size:.9rem"></p>
+  </div>
+
+  <h2>ADDED LINKS</h2>
+  <div class="list" id="custom"></div>
+
   <h2>LINK CONTROL</h2>
   <p style="color:var(--dim);font-size:.9rem;margin-bottom:8px">Down = shows a red "down" mark. Hide = removes the link from the site. Changes go live on the next page load.</p>
   <div class="list" id="links"></div>
@@ -75,7 +92,7 @@ label.chk{display:flex;gap:5px;align-items:center;font-size:.85rem;color:var(--d
 <script type="module">
 import {initializeApp} from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
 import {getAuth,signInWithEmailAndPassword,signOut,onAuthStateChanged} from "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
-import {getDatabase,ref,onValue,set,remove} from "https://www.gstatic.com/firebasejs/10.14.1/firebase-database.js";
+import {getDatabase,ref,onValue,set,remove,push} from "https://www.gstatic.com/firebasejs/10.14.1/firebase-database.js";
 
 const app=initializeApp({
   apiKey:"AIzaSyAGrvSr6W18eQJPKw5EjjpkMUTDhCul6d4",
@@ -122,6 +139,7 @@ function start(){
     $("#dev").replaceChildren(...(dv.length?dv:[card("No data yet",0)]));
   },fail);
 
+  startCustom();
   /* online now */
   onValue(ref(db,"online"),s=>{$("#s-on").textContent=Object.keys(s.val()||{}).length},fail);
 
@@ -138,6 +156,35 @@ function start(){
     drawLinks();
   }).catch(()=>{$("#links").replaceChildren(li("Could not read index.html",""))});
   onValue(ref(db,"config/links"),s=>{cfg=s.val()||{};drawLinks()},fail);
+}
+
+const CATS=["Movies","Sports","Cartoon","Anime","Music","Gaming","Educational","Tools","AI Tools","Dev Tools"];
+function startCustom(){
+  const sel=$("#c-cat");
+  sel.replaceChildren(...CATS.map(c=>new Option(c,c)),new Option("+ New category","__new"));
+  sel.onchange=()=>{$("#c-new").hidden=sel.value!=="__new"};
+  let custom={};
+  const say=(t,ok)=>{const p=$("#c-msg");p.textContent=t;p.style.color=ok?"var(--a)":"var(--r)"};
+  $("#c-add").onclick=()=>{
+    const c=sel.value==="__new"?$("#c-new").value.trim():sel.value;
+    const t=$("#c-t").value.trim(),u=$("#c-u").value.trim();
+    if(!c||!t)return say("Category and title are required.");
+    if(!/^https?:\/\/\S+$/i.test(u))return say("Link must start with http:// or https://");
+    if(LINKS.some(l=>l.u===u)||Object.values(custom).some(o=>o.u===u))return say("This link is already added.");
+    push(ref(db,"config/custom"),{t:t.slice(0,80),c:c.slice(0,40),e:($("#c-e").value.trim()||"🔗").slice(0,8),d:$("#c-d").value.trim().slice(0,160),u,added:new Date().toLocaleDateString("en-CA")})
+      .then(()=>{say("Added. It is live on the next page load.",true);["#c-t","#c-e","#c-d","#c-u"].forEach(q=>{$(q).value=""})})
+      .catch(()=>say("Could not save. Check the rules."));
+  };
+  onValue(ref(db,"config/custom"),s=>{
+    custom=s.val()||{};
+    const rows=Object.entries(custom).reverse();
+    $("#custom").replaceChildren(...(rows.length?rows.map(([id,o])=>{
+      const d=li(o.c+" / "+o.t,"");
+      const b=document.createElement("button");b.className="btn";b.textContent="Delete";b.style.cssText="padding:4px 10px;margin-left:auto";
+      b.onclick=()=>{if(confirm("Delete "+o.t+"?"))remove(ref(db,"config/custom/"+id)).catch(fail)};
+      d.lastChild.replaceWith(b);return d;
+    }):[li("No added links yet","")]));
+  },fail);
 }
 
 function drawLinks(){
