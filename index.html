@@ -9,6 +9,14 @@
 <link rel="canonical" href="https://doomraorish.onrender.com/">
 <link rel="icon" href="icon.svg" type="image/svg+xml">
 <link rel="manifest" href="manifest.json">
+<meta name="robots" content="index,follow">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="DoomFilms">
+<meta property="og:title" content="DoomFilms // Free Movies, Anime, AI Tools by Raorish Dev">
+<meta property="og:description" content="Curated links to free movies, anime, live TV and AI tools. All in one place.">
+<meta property="og:url" content="https://doomraorish.onrender.com/">
+<meta name="twitter:card" content="summary">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebSite","name":"DoomFilms","url":"https://doomraorish.onrender.com/","description":"Curated links to free movies, anime, live TV and AI tools.","author":{"@type":"Person","name":"Raorish Dev"}}</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Orbitron:wght@800;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
 <style>
@@ -54,7 +62,7 @@ button{font:inherit;color:inherit;border:0;cursor:pointer;background:none}
   position:relative;display:inline-block;
   font-family:'Orbitron',sans-serif;font-weight:900;
   font-size:clamp(2.6rem,11vw,5rem);letter-spacing:3px;color:#fff;
-  text-shadow:0 0 22px rgba(0,255,156,.55);
+  text-shadow:0 0 22px var(--a);
 }
 .hero h1::before,.hero h1::after{content:attr(data-t);position:absolute;inset:0;overflow:hidden}
 .hero h1::before{color:var(--r);transform:translate(3px,0);clip-path:inset(0 0 60% 0);animation:gl1 3.2s infinite steps(1)}
@@ -114,7 +122,7 @@ summary .n{margin-left:auto;font-family:'JetBrains Mono',monospace;font-size:.82
   border-bottom:1px solid #12221b;transition:background .12s;
 }
 .row:last-child{border-bottom:0}
-.row:hover{background:rgba(0,255,156,.09)}
+.row:hover{background:color-mix(in srgb,var(--a) 9%,transparent)}
 .row .em{font-size:1.2rem;flex:none}
 .row .rt{font-weight:600;color:#fff;flex:none}
 .row .rd{color:var(--dim);font-size:.9rem;flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
@@ -149,26 +157,64 @@ footer{padding:22px 0 34px;text-align:center;color:#7aa392;font-size:.85rem;bord
 .cnotes{padding:12px 14px 4px;display:grid;gap:8px;border-top:1px solid var(--line)}
 .cnotes .note{padding:9px 13px;font-size:.9rem;border-left-color:var(--r)}
 
+[hidden]{display:none!important}
+.tl{display:flex;align-items:center;gap:8px}
+.chip{font-family:'JetBrains Mono',monospace;font-weight:700;font-size:.8rem;color:var(--a);border:1px solid var(--a);border-radius:3px;padding:3px 9px}
+.chip:hover{background:var(--a);color:#000}
+.th{width:20px;height:20px;border-radius:50%;background:var(--c);border:2px solid #000;box-shadow:0 0 0 1px var(--c)}
+.tabs{display:flex;gap:8px;margin:-6px 0 16px;flex-wrap:wrap}
+.tab{font-family:'JetBrains Mono',monospace;font-weight:700;font-size:.85rem;padding:6px 14px;border:1px solid var(--line);border-radius:3px;color:var(--dim);background:#000}
+.tab.on{background:var(--a);color:#000;border-color:var(--a)}
+.rl{display:flex;align-items:center;gap:12px;flex:1;min-width:0}
+.acts{display:flex;align-items:center;gap:8px;flex:none}
+.ok{font-family:'JetBrains Mono',monospace;font-size:.72rem;color:var(--dim);white-space:nowrap}
+.ic{width:28px;height:28px;display:grid;place-items:center;border:1px solid var(--line);border-radius:3px;color:var(--dim);font-size:.9rem}
+.ic:hover{border-color:var(--a);color:var(--a)}
+.fav.on{color:var(--r);border-color:var(--r);text-shadow:0 0 8px var(--r)}
+.bd{flex:none;font-family:'JetBrains Mono',monospace;font-size:.68rem;font-weight:700;color:#000;background:var(--r);padding:1px 7px;border-radius:3px;animation:blink 1.2s steps(2) infinite}
+.soonbox{display:flex;justify-content:space-between;align-items:center;padding:13px 18px;margin-bottom:10px;border:1px dashed var(--line);border-radius:6px;color:var(--dim);font-family:'Orbitron',sans-serif;font-weight:800;font-size:.9rem;letter-spacing:1px}
+.soonbox span{font-family:'JetBrains Mono',monospace;font-size:.75rem;color:var(--r);border:1px solid var(--r);padding:1px 8px;border-radius:3px}
+.cd{margin-top:8px;font-family:'Orbitron',sans-serif;font-weight:800;font-size:1.25rem;color:#fff;text-shadow:var(--rglow)}
+#trend{margin:6px 0 20px}
+.strip{display:flex;gap:10px;overflow-x:auto;padding-bottom:8px}
+.strip a{flex:none;width:110px;font-size:.78rem;color:var(--dim)}
+.strip img{width:110px;height:165px;object-fit:cover;border-radius:4px;border:1px solid var(--line);display:block;margin-bottom:4px}
+.strip a:hover img{border-color:var(--a);box-shadow:var(--glow)}
+.tm{font-size:.7rem;color:#7aa392;margin-top:4px}
+.disc{margin:6px 0 14px;padding:14px 16px;border:1px dashed var(--line);border-radius:6px;font-size:.85rem;color:var(--dim)}
+.disc b{color:var(--r);font-family:'JetBrains Mono',monospace}
+#vc{display:block;margin-bottom:6px}
+#boot{position:fixed;inset:0;z-index:100;background:#000;display:grid;place-items:center;transition:opacity .5s;animation:bootout .5s 4.5s forwards}
+#boot.off{opacity:0;pointer-events:none}
+@keyframes bootout{to{opacity:0;visibility:hidden}}
+#bt{font-family:'JetBrains Mono',monospace;color:var(--a);font-size:1rem;white-space:pre-wrap;padding:20px;width:min(560px,100%);text-shadow:var(--glow)}
+:root[data-theme=red]{--a:#ff3b4e;--r:#ff9100;--line:#3a1f22;--glow:0 0 14px rgba(255,59,78,.45);--rglow:0 0 18px rgba(255,145,0,.55)}
+:root[data-theme=blue]{--a:#00d0ff;--r:#ff1f3d;--line:#1f3040;--glow:0 0 14px rgba(0,208,255,.45)}
+
 @media(max-width:560px){
   body{font-size:16px}
   .pin{flex-wrap:wrap}
   .pin .btn{width:100%;text-align:center}
-  .row{flex-wrap:wrap;gap:4px 10px}
-  .row .rd{order:3;flex-basis:100%;white-space:normal;padding-left:34px}
-  .row .go{margin-left:auto}
+  .row{flex-wrap:wrap;gap:6px 10px}
+  .rl{flex-wrap:wrap;flex-basis:100%}
+  .row .rd{flex-basis:100%;white-space:normal;padding-left:34px}
+  .acts{margin-left:auto}
 }
 </style>
 </head>
 <body>
+<div id="boot" aria-hidden="true"><pre id="bt"></pre></div>
 <canvas id="fx" aria-hidden="true"></canvas>
 
 <div class="wrap">
-  <div class="top"><span><i class="dot"></i>ONLINE</span><span>by <b>RAORISH DEV</b></span></div>
+  <div class="top"><span><i class="dot"></i>ONLINE · by <b>RAORISH DEV</b></span>
+    <span class="tl"><button class="chip" id="inst" hidden>INSTALL</button><button class="chip" id="lang" aria-label="Language">हिं</button><button class="th" data-th="green" style="--c:#00ff9c" aria-label="Green theme"></button><button class="th" data-th="red" style="--c:#ff3b4e" aria-label="Red theme"></button><button class="th" data-th="blue" style="--c:#00d0ff" aria-label="Blue theme"></button></span></div>
 
   <section class="upd" aria-label="Updates">
     <div class="upd-h">UPDATES</div>
     <div class="note hot">
-      🪔 <b>Diwali Special Update aa raha hai</b>
+      🪔 <b data-i="d_h">Diwali Special Update aa raha hai</b>
+      <div class="cd" id="cd"></div>
       <div class="chips">
         <span>Sports links</span><span>Cartoon links</span><span>P-Stream Forks</span><span>Stream Lounges</span><span>Streaming Apps</span><span>TV Streaming</span><span>Download Sites (movies, anime etc.)</span>
       </div>
@@ -177,32 +223,39 @@ footer{padding:22px 0 34px;text-align:center;color:#7aa392;font-size:.85rem;bord
         <span>Live TV / Sports: alag se, sirf cricket, IPL, FIFA, WWE aur baaki sports ke liye</span>
       </div>
     </div>
-    <div class="note">🎵 <b>Music / Podcasts / Radio</b> bhi add hone wala hai.</div>
-    <div class="note">🎮 <b>Gaming / Emulation</b>: sirf gamers ke liye. 📚 <b>Educational</b>: sirf students ke liye.</div>
+    <div class="note" data-i="n_music">🎵 <b>Music / Podcasts / Radio</b> bhi add hone wala hai.</div>
+    <div class="note" data-i="n_game">🎮 <b>Gaming / Emulation</b>: sirf gamers ke liye. 📚 <b>Educational</b>: sirf students ke liye.</div>
     <div class="note">
-      🧰 <b>Important Free Tools</b> section bhi aane wala hai. Big update.
+      <span data-i="n_tools">🧰 <b>Important Free Tools</b> section bhi aane wala hai. Big update.</span>
       <div class="chips">
         <span>System tools</span><span>File tools</span><span>Internet tools</span><span>Social media tools</span><span>Gaming tools</span><span>Image tools</span><span>Audio tools</span><span>Developer tools</span>
       </div>
-      <div style="margin-top:8px">🇮🇳 <b>Hindi translate</b> ka option bhi aayega, Hindi walon ke liye.</div>
+      <div style="margin-top:8px" data-i="n_hi">🇮🇳 <b>Hindi translate</b> ka option bhi aayega, Hindi walon ke liye.</div>
     </div>
   </section>
 
   <header class="hero">
     <h1 data-t="DOOMFILMS">DOOMFILMS</h1>
     <div class="sub">free movies. anime. AI tools.</div>
-    <p class="tagline">Saare best links ek jagah.</p>
+    <p class="tagline" data-i="tag">Saare best links ek jagah.</p>
   </header>
 
   <!-- Raorish app: always on top -->
   <div class="pin" id="pin"></div>
 
+  <section id="trend" hidden>
+    <div class="upd-h">TRENDING THIS WEEK</div>
+    <div class="strip" id="strip"></div>
+    <p class="tm">This product uses the TMDB API but is not endorsed or certified by TMDB.</p>
+  </section>
+
   <input id="qi" type="search" placeholder="search links..." aria-label="Search links">
+  <div class="tabs" id="tabs"></div>
   <main id="centers"></main>
 
   <div class="req">
-    <b>[ NAYA LINK ADD KARWANA HAI? ]</b>
-    <p>DM karo, link add kar diya jayega.</p>
+    <b data-i="req_h">[ NAYA LINK ADD KARWANA HAI? ]</b>
+    <p data-i="req_p">DM karo, link add kar diya jayega.</p>
     <div class="ct">Instagram: @019_r0<br>Gmail: raorishdevgrp123@gmail.com</div>
   </div>
 
@@ -210,9 +263,13 @@ footer{padding:22px 0 34px;text-align:center;color:#7aa392;font-size:.85rem;bord
     <button class="btn" id="shWa">WhatsApp</button>
     <button class="btn" id="shTg">Telegram</button>
     <button class="btn" id="shCp">Copy link</button>
+    <a class="btn" id="chn" hidden target="_blank" rel="noopener noreferrer">Join channel</a>
   </div>
 
-  <footer>© 2026 Raorish Dev</footer>
+  <div class="disc"><b data-i="disc_h">DISCLAIMER</b>
+    <p data-i="disc_p">DoomFilms koi video ya file host nahi karta. Yahan sirf doosri websites ke links diye gaye hain. Un sites ke content aur ads ki zimmedari unhi ki hai. Kisi content par aapatti ho to us site ko ya humein email karein.</p></div>
+
+  <footer><span id="vc"></span>© 2026 Raorish Dev</footer>
 </div>
 <div id="toast" role="status"></div>
 
@@ -259,15 +316,15 @@ const LINKS=[
 
 /* notes shown inside a Link Center (edit text here) */
 const NOTES={"Movies":[
-  "🛡️ PC ya MacBook par chala rahe ho to AdBlocker use karo (uBlock Origin ya koi bhi AdBlocker).",
-  "🔜 50 naye links next update mein jald aayenge.",
-  "🎞️ 4K available hai."
+  ["🛡️ PC ya MacBook par chala rahe ho to AdBlocker use karo (uBlock Origin ya koi bhi AdBlocker).","🛡️ PC या MacBook पर चला रहे हो तो AdBlocker इस्तेमाल करो (uBlock Origin या कोई भी)।"],
+  ["🔜 50 naye links next update mein jald aayenge.","🔜 50 नए लिंक अगले अपडेट में जल्द आएंगे।"],
+  ["🎞️ 4K available hai.","🎞️ 4K उपलब्ध है।"]
 ]};
 /* any category starting with "Movies" goes into the same center */
 const catKey=c=>/^\s*movies/i.test(c)?"Movies":String(c).trim();
 
 /* nice titles for categories (optional) */
-const TITLES={"Movies":"MOVIES / ANIME / LIVE TV LINK CENTER","Anime":"ANIME LINK CENTER","Live TV":"LIVE TV LINK CENTER","AI Tools":"AI TOOLS CENTER","Dev Tools":"DEV TOOLS CENTER"};
+const TITLES={"Movies":"MOVIES / ANIME / LIVE TV LINK CENTER","Sports":"SPORTS / LIVE TV CENTER","Cartoon":"CARTOON CENTER","Anime":"ANIME CENTER (ANIME LOVERS)","Music":"MUSIC / PODCASTS / RADIO CENTER","Gaming":"GAMING / EMULATION CENTER","Educational":"EDUCATIONAL CENTER (STUDENTS)","Tools":"IMPORTANT FREE TOOLS","AI Tools":"AI TOOLS CENTER","Dev Tools":"DEV TOOLS CENTER"};
 
 const $=s=>document.querySelector(s);
 const esc=s=>String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
@@ -280,28 +337,125 @@ if(pin){
   $("#pin").innerHTML=`<div class="em">${pin.e}</div><div class="tx"><div class="lb">[ FEATURED ]</div><h2>${esc(pin.t)}</h2><p>${esc(pin.d)}</p></div><a class="btn" href="${esc(pin.u)}" target="_blank" rel="noopener noreferrer">OPEN</a>`;
 }else{$("#pin").remove()}
 
+/* ===== CONFIG: fill these ===== */
+const CONFIG={
+  channel:"",   // Telegram/WhatsApp channel link, e.g. "https://t.me/yourchannel"
+  tmdbKey:"",   // free key from themoviedb.org (Settings > API) -> shows trending posters
+  cfToken:"",   // Cloudflare Web Analytics token (optional)
+  updateDate:"2026-11-10T00:00:00+05:30", // Diwali update release date (for countdown)
+  lastChecked:"2026-11-07", // date you last checked the links (shown next to the green tick)
+  counter:true  // visitor counter
+};
+/* boxes that show "SOON" until you add links with that c: value */
+const COMING=["Sports","Cartoon","Anime","Music","Gaming","Educational","Tools"];
+
+const store={get(k,d){try{const v=JSON.parse(localStorage.getItem(k));return v==null?d:v}catch(e){return d}},
+             set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}};
+const THEMES={green:{a:"0,255,156",r:"255,31,61"},red:{a:"255,59,78",r:"255,145,0"},blue:{a:"0,208,255",r:"255,31,61"}};
+const COL=Object.assign({},THEMES.green);
+function setTheme(n){if(!THEMES[n])n="green";document.documentElement.dataset.theme=n;Object.assign(COL,THEMES[n]);store.set("df_th",n)}
+document.querySelectorAll(".th").forEach(b=>b.onclick=()=>setTheme(b.dataset.th));
+setTheme(store.get("df_th","green"));
+
+/* Hindi / English */
+const I18N={ph:"लिंक खोजें...",tag:"सारे बेस्ट लिंक एक जगह।",d_h:"दिवाली स्पेशल अपडेट आ रहा है",
+ n_music:"🎵 <b>Music / Podcasts / Radio</b> भी जुड़ने वाला है।",
+ n_game:"🎮 <b>Gaming / Emulation</b>: सिर्फ गेमर्स के लिए। 📚 <b>Educational</b>: सिर्फ स्टूडेंट्स के लिए।",
+ n_tools:"🧰 <b>Important Free Tools</b> सेक्शन भी आने वाला है। बड़ा अपडेट।",
+ n_hi:"🇮🇳 <b>Hindi translate</b> का ऑप्शन भी आएगा, हिंदी वालों के लिए।",
+ req_h:"[ नया लिंक जुड़वाना है? ]",req_p:"DM करो, लिंक जोड़ दिया जाएगा।",
+ disc_h:"डिस्क्लेमर",disc_p:"DoomFilms कोई वीडियो या फाइल होस्ट नहीं करता। यहाँ सिर्फ दूसरी वेबसाइटों के लिंक दिए गए हैं। उन साइटों के कंटेंट और ऐड्स की जिम्मेदारी उन्हीं की है। किसी कंटेंट पर आपत्ति हो तो उस साइट को या हमें ईमेल करें।",
+ tab_all:"सभी",tab_fav:"पसंदीदा",tab_rec:"हाल के",soon:"जल्द",none:"[ कुछ नहीं मिला ]",nofav:"[ ♥ दबाकर पसंदीदा बनाओ ]",norec:"[ अभी कोई हिस्ट्री नहीं ]"};
+let LANG=store.get("df_lang","en"),tab="all",favs=store.get("df_fav",[]),recent=store.get("df_rec",[]);
+const T=(k,en)=>LANG==="hi"&&I18N[k]||en;
+function setLang(l){
+  LANG=l==="hi"?"hi":"en";document.documentElement.lang=LANG;
+  document.querySelectorAll("[data-i]").forEach(el=>{if(!el.dataset.en)el.dataset.en=el.innerHTML;el.innerHTML=(LANG==="hi"&&I18N[el.dataset.i])?I18N[el.dataset.i]:el.dataset.en});
+  $("#qi").placeholder=T("ph","search links...");$("#lang").textContent=LANG==="hi"?"EN":"हिं";
+  store.set("df_lang",LANG);tabs();render();
+}
+$("#lang").onclick=()=>setLang(LANG==="hi"?"en":"hi");
+
+/* tabs: All / Favourites / Recent */
+function tabs(){
+  $("#tabs").innerHTML=[["all",T("tab_all","All")],["fav","♥ "+T("tab_fav","Favourites")],["rec",T("tab_rec","Recent")]]
+    .map(([k,n])=>`<button class="tab${k===tab?" on":""}" data-t="${k}">${n}</button>`).join("");
+}
+$("#tabs").onclick=e=>{const k=e.target.dataset.t;if(!k)return;tab=k;tabs();render()};
+function track(u){recent=[u,...recent.filter(x=>x!==u)].slice(0,12);store.set("df_rec",recent)}
+
 /* link centers (compact rows inside collapsible boxes) */
+function row(l){
+  const on=favs.includes(l.u),d=l.chk||CONFIG.lastChecked;
+  const isNew=l.added&&Date.now()-new Date(l.added)<6048e5;
+  const st=l.down?"❌ down":"✅ "+new Date(d).toLocaleDateString("en-IN",{day:"numeric",month:"short"});
+  const mail="mailto:raorishdevgrp123@gmail.com?subject="+encodeURIComponent("Broken link: "+l.t)+"&body="+encodeURIComponent(l.u);
+  return `<div class="row" data-u="${esc(l.u)}"><a class="rl" href="${esc(l.u)}" target="_blank" rel="noopener noreferrer"><span class="em">${l.e}</span><span class="rt">${esc(l.t)}</span>${isNew?'<span class="bd">NEW</span>':""}<span class="rd">${esc(l.d)}</span></a><span class="acts"><span class="ok">${st}</span><button class="ic fav${on?" on":""}" aria-label="Favourite">♥</button><a class="ic" title="Report broken link" aria-label="Report broken link" href="${mail}">⚠</a><a class="go" href="${esc(l.u)}" target="_blank" rel="noopener noreferrer">OPEN</a></span></div>`;
+}
 function render(){
   const q=$("#qi").value.trim().toLowerCase();
-  const list=LINKS.filter(l=>!l.pinned && (l.t+" "+l.d+" "+l.c).toLowerCase().includes(q));
+  let list=LINKS.filter(l=>!l.pinned&&(l.t+" "+l.d+" "+l.c).toLowerCase().includes(q));
+  if(tab==="fav")list=list.filter(l=>favs.includes(l.u));
+  if(tab==="rec")list=recent.map(u=>list.find(l=>l.u===u)).filter(Boolean);
   const groups={};
   list.forEach(l=>{const k=catKey(l.c);(groups[k]=groups[k]||[]).push(l)});
-  const box=$("#centers");
-  const names=Object.keys(groups);
-  if(!names.length){box.innerHTML='<p class="empty">[ kuch nahi mila ]</p>';return}
-  box.innerHTML=names.map((c,i)=>`
-    <details ${(q||i===0)?"open":""}>
+  const names=Object.keys(groups),box=$("#centers");
+  let html=names.map((c,i)=>`
+    <details ${(q||tab!=="all"||i===0)?"open":""}>
       <summary><span class="ar">▶</span>${esc(TITLES[c]||c.toUpperCase()+" CENTER")}<span class="n">${groups[c].length}</span></summary>
-      ${NOTES[c]?`<div class="cnotes">${NOTES[c].map(n=>`<div class="note">${esc(n)}</div>`).join("")}</div>`:""}
-      <div class="rows">${groups[c].map(l=>`
-        <a class="row" href="${esc(l.u)}" target="_blank" rel="noopener noreferrer">
-          <span class="em">${l.e}</span><span class="rt">${esc(l.t)}</span><span class="rd">${esc(l.d)}</span><span class="go">OPEN</span>
-        </a>`).join("")}
-      </div>
+      ${NOTES[c]?`<div class="cnotes">${NOTES[c].map(n=>`<div class="note">${esc(n[LANG==="hi"?1:0])}</div>`).join("")}</div>`:""}
+      <div class="rows">${groups[c].map(row).join("")}</div>
     </details>`).join("");
+  if(tab==="all"&&!q)html+=COMING.filter(c=>!groups[c]).map(c=>`<div class="soonbox">${esc(TITLES[c]||c.toUpperCase())}<span>${T("soon","SOON")}</span></div>`).join("");
+  if(!names.length&&(q||tab!=="all"))html=`<p class="empty">${tab==="fav"&&!q?T("nofav","[ press ♥ to save favourites ]"):tab==="rec"&&!q?T("norec","[ no history yet ]"):T("none","[ kuch nahi mila ]")}</p>`;
+  box.innerHTML=html;
 }
+$("#centers").onclick=e=>{
+  const f=e.target.closest(".fav");
+  if(f){const u=f.closest(".row").dataset.u;favs=favs.includes(u)?favs.filter(x=>x!==u):[...favs,u];store.set("df_fav",favs);tab==="fav"?render():f.classList.toggle("on");return}
+  const a=e.target.closest("a.rl,a.go");if(a)track(a.closest(".row").dataset.u);
+};
 $("#qi").oninput=render;
-render();
+tabs();setLang(LANG);
+
+/* Diwali countdown */
+(function(){
+  const el=$("#cd");if(!el)return;const t=new Date(CONFIG.updateDate).getTime(),p=n=>String(n).padStart(2,"0");
+  function u(){const d=t-Date.now();if(!(d>0)){el.textContent="🔥 LIVE SOON";return}
+    el.textContent=p(Math.floor(d/864e5))+"d : "+p(Math.floor(d/36e5)%24)+"h : "+p(Math.floor(d/6e4)%60)+"m : "+p(Math.floor(d/1e3)%60)+"s"}
+  u();setInterval(u,1000);
+})();
+
+/* hacker boot intro (once per visit, click to skip) */
+(function(){
+  const b=$("#boot");let seen=false;try{seen=sessionStorage.getItem("df_boot")}catch(e){}
+  if(seen){b.remove();return}
+  try{sessionStorage.setItem("df_boot","1")}catch(e){}
+  const L=["> booting DOOMFILMS...","> scanning links ........ OK","> encrypting connection .. OK","> ACCESS GRANTED_"],p=$("#bt");let i=0,j=0;
+  const close=()=>{b.classList.add("off");setTimeout(()=>b.remove(),600)};b.onclick=close;
+  (function type(){
+    if(i>=L.length){setTimeout(close,500);return}
+    if(j<=L[i].length){p.textContent=L.slice(0,i).join("\n")+(i?"\n":"")+L[i].slice(0,j++);setTimeout(type,18)}
+    else{i++;j=0;setTimeout(type,160)}
+  })();
+})();
+
+/* trending posters (needs CONFIG.tmdbKey) */
+if(CONFIG.tmdbKey){
+  fetch("https://api.themoviedb.org/3/trending/movie/week?api_key="+CONFIG.tmdbKey).then(r=>r.json()).then(d=>{
+    const m=(d.results||[]).filter(x=>x.poster_path).slice(0,12);if(!m.length)return;
+    $("#strip").innerHTML=m.map(x=>`<a href="https://www.themoviedb.org/movie/${x.id}" target="_blank" rel="noopener noreferrer"><img loading="lazy" src="https://image.tmdb.org/t/p/w185${x.poster_path}" alt="${esc(x.title)}">${esc(x.title)}</a>`).join("");
+    $("#trend").hidden=false;
+  }).catch(()=>{});
+}
+/* analytics + visitor counter */
+if(CONFIG.cfToken){const s=document.createElement("script");s.defer=true;s.src="https://static.cloudflareinsights.com/beacon.min.js";s.dataset.cfBeacon=JSON.stringify({token:CONFIG.cfToken});document.head.appendChild(s)}
+if(CONFIG.counter){fetch("https://abacus.jasoncameron.dev/hit/doomraorish.onrender.com/visits").then(r=>r.json()).then(d=>{if(d&&d.value!=null)$("#vc").textContent="👁 "+d.value+" visitors"}).catch(()=>{})}
+/* install button + service worker */
+let dp;addEventListener("beforeinstallprompt",e=>{e.preventDefault();dp=e;$("#inst").hidden=false});
+$("#inst").onclick=()=>{if(dp){dp.prompt();dp=null;$("#inst").hidden=true}};
+if("serviceWorker" in navigator)addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}));
+if(CONFIG.channel){const c=$("#chn");c.href=CONFIG.channel;c.hidden=false}
 
 /* share */
 const url=location.href.split("#")[0],msg="DoomFilms: free movies, anime and AI tools by Raorish Dev";
@@ -319,7 +473,7 @@ $("#shCp").onclick=()=>{(navigator.clipboard?navigator.clipboard.writeText(url):
   function mkBubble(first){
     const red=Math.random()<.2;
     return {x:rnd(0,w),y:first?rnd(0,h):h+rnd(10,120),r:rnd(6,26),v:rnd(.4,1.3),
-            ph:rnd(0,6.28),sw:rnd(.3,1),col:red?"255,31,61":"0,255,156"};
+            ph:rnd(0,6.28),sw:rnd(.3,1),col:red?COL.r:COL.a};
   }
   function mkNum(){
     return {x:rnd(0,w),y:rnd(60,h),t:rnd(0,6.28),sp:rnd(.02,.07),
@@ -340,7 +494,7 @@ $("#shCp").onclick=()=>{(navigator.clipboard?navigator.clipboard.writeText(url):
     /* matrix rain */
     x.font="16px 'JetBrains Mono',monospace";
     for(let i=0;i<cols;i++){
-      x.fillStyle=Math.random()>.97?"rgba(255,31,61,.8)":"rgba(0,255,156,.55)";
+      x.fillStyle=Math.random()>.97?"rgba("+COL.r+",.8)":"rgba("+COL.a+",.55)";
       x.fillText(chars[Math.floor(Math.random()*chars.length)],i*18,drops[i]*18);
       if(drops[i]*18>h&&Math.random()>.975)drops[i]=0;
       drops[i]+=.6;
@@ -353,7 +507,7 @@ $("#shCp").onclick=()=>{(navigator.clipboard?navigator.clipboard.writeText(url):
       if(a<.02&&n.life){n.x=rnd(0,w);n.y=rnd(60,h);n.v=Math.random()<.5?"0":"1";n.red=Math.random()<.25;n.life=0}
       if(a>.1)n.life=1;
       x.font="700 "+n.s+"px 'JetBrains Mono',monospace";
-      const col=n.red?"255,31,61":"0,255,156";
+      const col=n.red?COL.r:COL.a;
       x.shadowColor="rgba("+col+",.9)";x.shadowBlur=12;
       x.fillStyle="rgba("+col+","+(a*.85).toFixed(3)+")";
       x.fillText(n.v,n.x,n.y);
