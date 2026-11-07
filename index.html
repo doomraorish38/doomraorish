@@ -80,8 +80,9 @@ button{font:inherit;color:inherit;border:0;cursor:pointer;background:none}
   padding:20px;margin:6px 0 26px;
   border:2px solid var(--r);border-radius:6px;
   background:linear-gradient(90deg,rgba(255,31,61,.14),rgba(255,31,61,.03));
-  box-shadow:var(--rglow);
+  box-shadow:var(--rglow);transition:box-shadow .15s;
 }
+.pin:hover{box-shadow:0 0 30px rgba(255,31,61,.75)}
 .pin .em{font-size:2.4rem}
 .pin .tx{flex:1;min-width:0}
 .pin .lb{font-family:'JetBrains Mono',monospace;font-size:.78rem;color:var(--r);font-weight:700}
@@ -106,7 +107,8 @@ button{font:inherit;color:inherit;border:0;cursor:pointer;background:none}
 #qi:focus{outline:0;border-color:var(--a);box-shadow:var(--glow)}
 
 /* link centers */
-details{border:1px solid var(--line);border-radius:6px;background:var(--panel);margin-bottom:14px;overflow:hidden}
+details{border:1px solid var(--line);border-radius:6px;background:var(--panel);margin-bottom:14px;overflow:hidden;transition:border-color .15s,box-shadow .15s}
+details:hover{border-color:var(--a)}
 details[open]{border-color:var(--a);box-shadow:var(--glow)}
 summary{
   list-style:none;cursor:pointer;display:flex;align-items:center;gap:12px;
@@ -124,7 +126,8 @@ summary .n{margin-left:auto;font-family:'JetBrains Mono',monospace;font-size:.82
 .row:last-child{border-bottom:0}
 .row:hover{background:color-mix(in srgb,var(--a) 9%,transparent)}
 .row .em{font-size:1.2rem;flex:none}
-.row .rt{font-weight:600;color:#fff;flex:none}
+.row .rt{font-weight:600;color:#fff;flex:none;transition:color .12s,text-shadow .12s}
+.row:hover .rt{color:var(--a);text-shadow:0 0 8px rgba(0,255,156,.6)}
 .row .rd{color:var(--dim);font-size:.9rem;flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .row .go{flex:none;font-family:'JetBrains Mono',monospace;font-weight:700;font-size:.85rem;color:var(--a);border:1px solid var(--a);padding:3px 10px;border-radius:3px}
 .row:hover .go{background:var(--a);color:#000}
@@ -200,6 +203,9 @@ footer{padding:22px 0 34px;text-align:center;color:#7aa392;font-size:.85rem;bord
   .row .rd{flex-basis:100%;white-space:normal;padding-left:34px}
   .acts{margin-left:auto}
 }
+@media(prefers-reduced-motion:reduce){
+  .hero h1::before,.hero h1::after,.dot,.bd{animation:none!important}
+}
 </style>
 </head>
 <body>
@@ -208,7 +214,7 @@ footer{padding:22px 0 34px;text-align:center;color:#7aa392;font-size:.85rem;bord
 
 <div class="wrap">
   <div class="top"><span><i class="dot"></i>ONLINE · by <b>RAORISH DEV</b></span>
-    <span class="tl"><button class="chip" id="inst" hidden>INSTALL</button><button class="chip" id="lang" aria-label="Language">हिं</button><button class="th" data-th="green" style="--c:#00ff9c" aria-label="Green theme"></button><button class="th" data-th="red" style="--c:#ff3b4e" aria-label="Red theme"></button><button class="th" data-th="blue" style="--c:#00d0ff" aria-label="Blue theme"></button></span></div>
+    <span class="tl"><button class="chip" id="fxb" aria-pressed="true" aria-label="Toggle background effects">FX ON</button><button class="chip" id="inst" hidden>INSTALL</button><button class="chip" id="lang" aria-label="Language">हिं</button><button class="th" data-th="green" style="--c:#00ff9c" aria-label="Green theme"></button><button class="th" data-th="red" style="--c:#ff3b4e" aria-label="Red theme"></button><button class="th" data-th="blue" style="--c:#00d0ff" aria-label="Blue theme"></button></span></div>
 
   <section class="upd" aria-label="Updates">
     <div class="upd-h">UPDATES</div>
@@ -463,10 +469,13 @@ $("#shWa").onclick=()=>open("https://wa.me/?text="+encodeURIComponent(msg+" "+ur
 $("#shTg").onclick=()=>open("https://t.me/share/url?url="+encodeURIComponent(url)+"&text="+encodeURIComponent(msg),"_blank","noopener");
 $("#shCp").onclick=()=>{(navigator.clipboard?navigator.clipboard.writeText(url):Promise.reject()).then(()=>toast("Link copy ho gaya")).catch(()=>toast("Copy nahi hua"))};
 
-/* background: matrix rain + rising bubbles + blinking numbers */
+/* background: matrix rain + rising bubbles + blinking numbers
+   FX button = ON/OFF (saved). 24 fps cap, pauses on hidden tab, lighter on low-spec devices. */
 (function(){
-  const c=$("#fx"),x=c.getContext("2d");
-  let w,h,cols,drops,bubbles=[],nums=[];
+  const c=$("#fx"),x=c.getContext("2d"),fb=$("#fxb");
+  const low=(navigator.hardwareConcurrency||4)<=4;
+  let w,h,cols,drops,bubbles=[],nums=[],raf=0,last=0;
+  let on=store.get("df_fx",!(window.matchMedia&&matchMedia("(prefers-reduced-motion: reduce)").matches));
   const chars="01ABCDEFXYZ{}<>/\\#$%";
   const rnd=(a,b)=>a+Math.random()*(b-a);
 
@@ -483,11 +492,14 @@ $("#shCp").onclick=()=>{(navigator.clipboard?navigator.clipboard.writeText(url):
     w=c.width=innerWidth;h=c.height=innerHeight;
     cols=Math.floor(w/18);
     drops=Array.from({length:cols},()=>Math.random()*h/18);
-    const nb=Math.min(28,Math.max(12,Math.floor(w/55)));
+    const nb=Math.min(low?12:28,Math.max(8,Math.floor(w/55)));
     bubbles=Array.from({length:nb},()=>mkBubble(true));
-    nums=Array.from({length:Math.min(40,Math.max(18,Math.floor(w/35)))},mkNum);
+    nums=Array.from({length:Math.min(low?18:40,Math.max(10,Math.floor(w/35)))},mkNum);
   }
-  function tick(){
+  function tick(t){
+    raf=requestAnimationFrame(tick);
+    if(t-last<42)return;           /* ~24 fps */
+    last=t;
     /* fade trail */
     x.fillStyle="rgba(4,6,5,.14)";x.fillRect(0,0,w,h);
 
@@ -508,7 +520,7 @@ $("#shCp").onclick=()=>{(navigator.clipboard?navigator.clipboard.writeText(url):
       if(a>.1)n.life=1;
       x.font="700 "+n.s+"px 'JetBrains Mono',monospace";
       const col=n.red?COL.r:COL.a;
-      x.shadowColor="rgba("+col+",.9)";x.shadowBlur=12;
+      x.shadowColor="rgba("+col+",.9)";x.shadowBlur=low?0:12;
       x.fillStyle="rgba("+col+","+(a*.85).toFixed(3)+")";
       x.fillText(n.v,n.x,n.y);
     }
@@ -518,7 +530,7 @@ $("#shCp").onclick=()=>{(navigator.clipboard?navigator.clipboard.writeText(url):
       b.y-=b.v;b.ph+=.02;
       const bx=b.x+Math.sin(b.ph)*b.sw*14;
       if(b.y<-b.r*2){Object.assign(b,mkBubble(false))}
-      x.shadowColor="rgba("+b.col+",.9)";x.shadowBlur=14;
+      x.shadowColor="rgba("+b.col+",.9)";x.shadowBlur=low?0:14;
       x.lineWidth=1.6;
       x.strokeStyle="rgba("+b.col+",.75)";
       x.fillStyle="rgba("+b.col+",.08)";
@@ -529,9 +541,17 @@ $("#shCp").onclick=()=>{(navigator.clipboard?navigator.clipboard.writeText(url):
       x.beginPath();x.arc(bx,b.y,b.r*.65,3.6,4.5);x.stroke();
     }
     x.shadowBlur=0;
-    requestAnimationFrame(tick);
   }
-  size();tick();addEventListener("resize",size);
+  function start(){if(!raf&&on&&!document.hidden)raf=requestAnimationFrame(tick)}
+  function stop(){cancelAnimationFrame(raf);raf=0}
+  function setFx(v){
+    on=!!v;store.set("df_fx",on);
+    fb.textContent=on?"FX ON":"FX OFF";fb.setAttribute("aria-pressed",String(on));
+    if(on){c.style.display="";start()}else{stop();c.style.display="none"}
+  }
+  fb.onclick=()=>setFx(!on);
+  document.addEventListener("visibilitychange",()=>{document.hidden?stop():start()});
+  size();addEventListener("resize",size);setFx(on);
 })();
 </script>
 </body>
