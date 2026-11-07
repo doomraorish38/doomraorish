@@ -608,9 +608,13 @@ document.addEventListener("click",e=>{
   update(ref(db),{["clicks/"+k+"/n"]:increment(1),["clicks/"+k+"/t"]:t}).catch(()=>{});
 },true);
 
-/* admin can turn links down/hidden without editing the code */
-get(ref(db,"config/links")).then(s=>{
-  const c=s.val();if(!c)return;
+/* links added from the admin panel + down/hidden switches (one read, public) */
+get(ref(db,"config")).then(s=>{
+  const cf=s.val()||{},cu=cf.custom||{},c=cf.links||{};
+  Object.values(cu).forEach(o=>{
+    if(o&&o.t&&o.c&&/^https?:\/\/\S+$/i.test(o.u)&&!LINKS.some(l=>l.u===o.u))
+      LINKS.push({t:String(o.t).slice(0,80),c:String(o.c).slice(0,40),e:String(o.e||"🔗").slice(0,8),d:String(o.d||"").slice(0,160),u:o.u,added:o.added});
+  });
   LINKS.forEach(l=>{const o=c[key(l.u)];if(o){l.down=!!o.down;l.hide=!!o.hide}});
   render();
 }).catch(()=>{});
