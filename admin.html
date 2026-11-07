@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>DoomFilms Admin</title>
+<style>
+:root{--bg:#040605;--panel:#0a100d;--ink:#f2fff8;--dim:#b4cfc4;--a:#00ff9c;--r:#ff1f3d;--line:#1f3a30}
+*{box-sizing:border-box;margin:0}
+body{background:var(--bg);color:var(--ink);font:16px/1.55 system-ui,sans-serif;padding:16px;max-width:900px;margin:auto}
+h1{font:800 1.4rem Orbitron,system-ui,sans-serif;letter-spacing:1px}
+h2{font:700 .9rem ui-monospace,Consolas,monospace;color:var(--r);margin:22px 0 8px}
+h2::before{content:"> ";color:var(--a)}
+button,input{font:inherit}
+input[type=email],input[type=password]{width:100%;padding:12px;margin:6px 0;background:#000;color:var(--a);border:1px solid var(--line);border-radius:4px}
+input:focus{outline:2px solid var(--a)}
+.btn{padding:10px 18px;border:2px solid var(--a);color:var(--a);background:none;border-radius:4px;font-weight:700;cursor:pointer}
+.btn:hover{background:var(--a);color:#000}
+.bar{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:14px}
+.card b{display:block;font-size:1.9rem;color:var(--a);line-height:1.1}
+.card span{color:var(--dim);font-size:.85rem}
+.card.live b{color:var(--r)}
+.list{background:var(--panel);border:1px solid var(--line);border-radius:6px}
+.li{display:flex;gap:10px;align-items:center;padding:9px 14px;border-bottom:1px solid #12221b}
+.li:last-child{border-bottom:0}
+.li .n{margin-left:auto;font-weight:700;color:var(--a)}
+.li .t{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.chart{display:flex;align-items:flex-end;gap:8px;height:140px;background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:12px}
+.col{flex:1;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;height:100%;font-size:.72rem;color:var(--dim)}
+.col i{display:block;width:100%;background:var(--a);border-radius:2px 2px 0 0;min-height:2px}
+.col em{font-style:normal;color:#fff}
+label.chk{display:flex;gap:5px;align-items:center;font-size:.85rem;color:var(--dim);cursor:pointer}
+#err,#msg{color:var(--r);min-height:1.4em;font-size:.9rem}
+[hidden]{display:none!important}
+</style>
+</head>
+<body>
+<div id="login">
+  <h1>DOOMFILMS ADMIN</h1>
+  <input id="em" type="email" placeholder="admin email" autocomplete="username">
+  <input id="pw" type="password" placeholder="password" autocomplete="current-password">
+  <button class="btn" id="go">Log in</button>
+  <p id="err" role="alert"></p>
+</div>
+
+<div id="app" hidden>
+  <div class="bar"><h1>DOOMFILMS ADMIN</h1><button class="btn" id="out">Log out</button></div>
+  <p id="msg" role="alert"></p>
+
+  <h2>OVERVIEW</h2>
+  <div class="grid">
+    <div class="card"><b id="s-total">0</b><span>Total visits</span></div>
+    <div class="card"><b id="s-today">0</b><span>Visits today</span></div>
+    <div class="card"><b id="s-uniq">0</b><span>Unique visitors today</span></div>
+    <div class="card live"><b id="s-on">0</b><span>Online now</span></div>
+  </div>
+
+  <h2>LAST 7 DAYS</h2>
+  <div class="chart" id="chart"></div>
+
+  <h2>TOP LINKS (CLICKS)</h2>
+  <div class="list" id="top"></div>
+
+  <h2>DEVICES AND THEMES</h2>
+  <div class="grid" id="dev"></div>
+
+  <h2>LINK CONTROL</h2>
+  <p style="color:var(--dim);font-size:.9rem;margin-bottom:8px">Down = shows a red "down" mark. Hide = removes the link from the site. Changes go live on the next page load.</p>
+  <div class="list" id="links"></div>
+</div>
+
+<script type="module">
+import {initializeApp} from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
+import {getAuth,signInWithEmailAndPassword,signOut,onAuthStateChanged} from "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
+import {getDatabase,ref,onValue,set,remove} from "https://www.gstatic.com/firebasejs/10.14.1/firebase-database.js";
+
+const app=initializeApp({
+  apiKey:"AIzaSyAGrvSr6W18eQJPKw5EjjpkMUTDhCul6d4",
+  authDomain:"doomfilms-3ee0f.firebaseapp.com",
+  databaseURL:"https://doomfilms-3ee0f-default-rtdb.asia-southeast1.firebasedatabase.app",
+  projectId:"doomfilms-3ee0f",
+  storageBucket:"doomfilms-3ee0f.firebasestorage.app",
+  messagingSenderId:"519523656990",
+  appId:"1:519523656990:web:5ecb01578b38a5fd81150f"
+});
+const auth=getAuth(app),db=getDatabase(app);
+const $=s=>document.querySelector(s);
+const key=u=>String(u).replace(/[^a-z0-9]/gi,"_").slice(0,100);
+const li=(t,n)=>{const d=document.createElement("div");d.className="li";const a=document.createElement("span");a.className="t";a.textContent=t;const b=document.createElement("span");b.className="n";b.textContent=n;d.append(a,b);return d};
+const card=(t,n)=>{const d=document.createElement("div");d.className="card";d.innerHTML="<b></b><span></span>";d.firstChild.textContent=n;d.lastChild.textContent=t;return d};
+const fail=e=>{$("#msg").textContent=(e&&/permission/i.test(e.message))?"No permission. Check that the rules have your admin UID.":"Could not load data."};
+
+$("#go").onclick=()=>{$("#err").textContent="";signInWithEmailAndPassword(auth,$("#em").value.trim(),$("#pw").value).catch(()=>$("#err").textContent="Login failed. Check email and password.")};
+$("#pw").onkeydown=e=>{if(e.key==="Enter")$("#go").click()};
+$("#out").onclick=()=>signOut(auth);
+
+let started=false,LINKS=[],cfg={};
+onAuthStateChanged(auth,u=>{
+  $("#login").hidden=!!u;$("#app").hidden=!u;
+  if(u&&!started){started=true;start()}
+});
+
+function start(){
+  /* stats */
+  onValue(ref(db,"stats"),s=>{
+    const v=s.val()||{},days=v.days||{};
+    const day=o=>o?(o.visits||0):0;
+    const today=new Date().toLocaleDateString("en-CA");
+    $("#s-total").textContent=v.total||0;
+    $("#s-today").textContent=day(days[today]);
+    $("#s-uniq").textContent=Object.keys((days[today]||{}).uniq||{}).length;
+    const arr=[];
+    for(let i=6;i>=0;i--){const d=new Date(Date.now()-i*864e5).toLocaleDateString("en-CA");arr.push([d.slice(5),day(days[d])])}
+    const mx=Math.max(1,...arr.map(x=>x[1]));
+    $("#chart").replaceChildren(...arr.map(([d,n])=>{const c=document.createElement("div");c.className="col";const e=document.createElement("em");e.textContent=n;const b=document.createElement("i");b.style.height=Math.round(n/mx*100)+"px";const l=document.createElement("span");l.textContent=d;c.append(e,b,l);return c}));
+    const dv=[];
+    Object.entries(v.device||{}).forEach(([k,n])=>dv.push(card("Device: "+k,n)));
+    Object.entries(v.theme||{}).forEach(([k,n])=>dv.push(card("Theme: "+k,n)));
+    $("#dev").replaceChildren(...(dv.length?dv:[card("No data yet",0)]));
+  },fail);
+
+  /* online now */
+  onValue(ref(db,"online"),s=>{$("#s-on").textContent=Object.keys(s.val()||{}).length},fail);
+
+  /* top clicked links */
+  onValue(ref(db,"clicks"),s=>{
+    const rows=Object.values(s.val()||{}).sort((a,b)=>(b.n||0)-(a.n||0)).slice(0,15);
+    $("#top").replaceChildren(...(rows.length?rows.map(r=>li(r.t||"?",r.n||0)):[li("No clicks yet","")]));
+  },fail);
+
+  /* link control: read the LINKS list from the site's own index.html */
+  fetch("index.html",{cache:"no-store"}).then(r=>r.text()).then(t=>{
+    const m=t.match(/const LINKS=(\[[\s\S]*?\n\]);/);
+    if(m)LINKS=new Function("return "+m[1])().filter(l=>!l.pinned);
+    drawLinks();
+  }).catch(()=>{$("#links").replaceChildren(li("Could not read index.html",""))});
+  onValue(ref(db,"config/links"),s=>{cfg=s.val()||{};drawLinks()},fail);
+}
+
+function drawLinks(){
+  if(!LINKS.length)return;
+  $("#links").replaceChildren(...LINKS.map(l=>{
+    const k=key(l.u),o=cfg[k]||{};
+    const d=document.createElement("div");d.className="li";
+    const t=document.createElement("span");t.className="t";t.textContent=l.t;
+    const mk=(name,on)=>{
+      const lb=document.createElement("label");lb.className="chk";
+      const c=document.createElement("input");c.type="checkbox";c.checked=!!on;
+      c.onchange=()=>{
+        const down=name==="Down"?c.checked:!!o.down,hide=name==="Hide"?c.checked:!!o.hide;
+        (down||hide?set(ref(db,"config/links/"+k),{down,hide}):remove(ref(db,"config/links/"+k))).catch(fail);
+      };
+      lb.append(c,name);return lb;
+    };
+    const box=document.createElement("span");box.style.cssText="margin-left:auto;display:flex;gap:12px";
+    box.append(mk("Down",o.down),mk("Hide",o.hide));
+    d.append(t,box);return d;
+  }));
+}
+</script>
+</body>
+</html>
