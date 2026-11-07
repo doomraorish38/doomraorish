@@ -553,6 +553,11 @@ $("#shCp").onclick=()=>{(navigator.clipboard?navigator.clipboard.writeText(url):
   document.addEventListener("visibilitychange",()=>{document.hidden?stop():start()});
   size();addEventListener("resize",size);setFx(on);
 })();
+
+/* hidden admin entry: tap the logo 5 times quickly (no visible link for visitors) */
+(function(){let n=0,t;const h=$(".hero h1");if(!h)return;
+  h.addEventListener("click",()=>{n++;clearTimeout(t);t=setTimeout(()=>{n=0},1500);if(n>=5){n=0;location.href="admin.html"}});
+})();
 </script>
 <script type="module">
 import {initializeApp} from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
