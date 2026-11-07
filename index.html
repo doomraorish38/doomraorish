@@ -275,7 +275,7 @@ footer{padding:22px 0 34px;text-align:center;color:#7aa392;font-size:.85rem;bord
   <div class="disc"><b data-i="disc_h">DISCLAIMER</b>
     <p data-i="disc_p">DoomFilms koi video ya file host nahi karta. Yahan sirf doosri websites ke links diye gaye hain. Un sites ke content aur ads ki zimmedari unhi ki hai. Kisi content par aapatti ho to us site ko ya humein email karein.</p></div>
 
-  <footer><span id="vc"></span>© 2026 Raorish Dev</footer>
+  <footer><span id="vc"></span><small style="display:block;margin-bottom:6px">Anonymous visit and click counts are saved to improve the site.</small>© 2026 Raorish Dev</footer>
 </div>
 <div id="toast" role="status"></div>
 
@@ -400,7 +400,7 @@ function row(l){
 }
 function render(){
   const q=$("#qi").value.trim().toLowerCase();
-  let list=LINKS.filter(l=>!l.pinned&&(l.t+" "+l.d+" "+l.c).toLowerCase().includes(q));
+  let list=LINKS.filter(l=>!l.pinned&&!l.hide&&(l.t+" "+l.d+" "+l.c).toLowerCase().includes(q));
   if(tab==="fav")list=list.filter(l=>favs.includes(l.u));
   if(tab==="rec")list=recent.map(u=>list.find(l=>l.u===u)).filter(Boolean);
   const groups={};
@@ -553,6 +553,63 @@ $("#shCp").onclick=()=>{(navigator.clipboard?navigator.clipboard.writeText(url):
   document.addEventListener("visibilitychange",()=>{document.hidden?stop():start()});
   size();addEventListener("resize",size);setFx(on);
 })();
+</script>
+<script type="module">
+import {initializeApp} from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
+import {getDatabase,ref,get,update,set,increment,onDisconnect} from "https://www.gstatic.com/firebasejs/10.14.1/firebase-database.js";
+try{
+const app=initializeApp({
+  apiKey:"AIzaSyAGrvSr6W18eQJPKw5EjjpkMUTDhCul6d4",
+  authDomain:"doomfilms-3ee0f.firebaseapp.com",
+  databaseURL:"https://doomfilms-3ee0f-default-rtdb.asia-southeast1.firebasedatabase.app",
+  projectId:"doomfilms-3ee0f",
+  storageBucket:"doomfilms-3ee0f.firebasestorage.app",
+  messagingSenderId:"519523656990",
+  appId:"1:519523656990:web:5ecb01578b38a5fd81150f"
+});
+const db=getDatabase(app);
+const key=u=>String(u).replace(/[^a-z0-9]/gi,"_").slice(0,100);
+
+/* anonymous random id (no name, no number, no IP stored) */
+let vid=store.get("df_vid",null);
+if(!vid){vid=(crypto.randomUUID?crypto.randomUUID().replace(/-/g,""):String(Math.random()).slice(2)+Date.now()).slice(0,24);store.set("df_vid",vid)}
+
+/* count one visit per session */
+let counted=false;try{counted=sessionStorage.getItem("df_s")}catch(e){}
+if(!counted){
+  try{sessionStorage.setItem("df_s","1")}catch(e){}
+  const d=new Date().toLocaleDateString("en-CA");
+  const dev=matchMedia("(pointer:coarse)").matches?"mobile":"desktop";
+  update(ref(db),{
+    "stats/total":increment(1),
+    ["stats/days/"+d+"/visits"]:increment(1),
+    ["stats/days/"+d+"/uniq/"+vid]:true,
+    ["stats/device/"+dev]:increment(1),
+    ["stats/theme/"+(document.documentElement.dataset.theme||"green")]:increment(1)
+  }).catch(()=>{});
+}
+
+/* live online count: entry is removed automatically when the tab closes */
+const me=ref(db,"online/"+vid);
+set(me,true).then(()=>onDisconnect(me).remove()).catch(()=>{});
+
+/* link clicks */
+document.addEventListener("click",e=>{
+  const a=e.target.closest("a.rl,a.go,.pin .btn");if(!a)return;
+  const row=a.closest(".row");
+  const u=row?row.dataset.u:a.href;
+  const t=(row?row.querySelector(".rt").textContent:"Raorish Air").slice(0,80);
+  const k=key(u);
+  update(ref(db),{["clicks/"+k+"/n"]:increment(1),["clicks/"+k+"/t"]:t}).catch(()=>{});
+},true);
+
+/* admin can turn links down/hidden without editing the code */
+get(ref(db,"config/links")).then(s=>{
+  const c=s.val();if(!c)return;
+  LINKS.forEach(l=>{const o=c[key(l.u)];if(o){l.down=!!o.down;l.hide=!!o.hide}});
+  render();
+}).catch(()=>{});
+}catch(e){}
 </script>
 </body>
 </html>
