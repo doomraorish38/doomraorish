@@ -70,6 +70,13 @@ label.chk{display:flex;gap:5px;align-items:center;font-size:.85rem;color:var(--d
   <h2>DEVICES AND THEMES</h2>
   <div class="grid" id="dev"></div>
 
+  <h2>LIVE TICKER MESSAGE</h2>
+  <div class="f">
+    <input id="tk-t" type="text" maxlength="200" placeholder="Example: IPL tonight 7:30 PM, MI vs CSK">
+    <div style="display:flex;gap:8px"><button class="btn" id="tk-s" type="button">Save</button><button class="btn" id="tk-c" type="button">Clear</button></div>
+    <p id="tk-m" role="status" style="min-height:1.4em;font-size:.9rem"></p>
+  </div>
+
   <h2>ADD NEW LINK</h2>
   <div class="f">
     <select id="c-cat" aria-label="Category"></select>
@@ -140,6 +147,7 @@ function start(){
   },fail);
 
   startCustom();
+  startTicker();
   /* online now */
   onValue(ref(db,"online"),s=>{$("#s-on").textContent=Object.keys(s.val()||{}).length},fail);
 
@@ -158,6 +166,17 @@ function start(){
   onValue(ref(db,"config/links"),s=>{cfg=s.val()||{};drawLinks()},fail);
 }
 
+function startTicker(){
+  const say=(t,ok)=>{const p=$("#tk-m");p.textContent=t;p.style.color=ok?"var(--a)":"var(--r)"};
+  onValue(ref(db,"config/ticker"),s=>{const v=s.val();if(typeof v==="string"&&document.activeElement!==$("#tk-t"))$("#tk-t").value=v},fail);
+  $("#tk-s").onclick=()=>{
+    const v=$("#tk-t").value.trim().slice(0,200);
+    (v?set(ref(db,"config/ticker"),v):remove(ref(db,"config/ticker")))
+      .then(()=>say(v?"Saved. It shows in the site ticker.":"Cleared.",true))
+      .catch(()=>say("Could not save. Check the rules."));
+  };
+  $("#tk-c").onclick=()=>{$("#tk-t").value="";$("#tk-s").click()};
+}
 const CATS=["Movies","Sports","Cartoon","Anime","Music","Gaming","Educational","Tools","AI Tools","Dev Tools"];
 function startCustom(){
   const sel=$("#c-cat");
