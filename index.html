@@ -194,6 +194,41 @@ footer{padding:22px 0 34px;text-align:center;color:#7aa392;font-size:.85rem;bord
 :root[data-theme=red]{--a:#ff3b4e;--r:#ff9100;--line:#3a1f22;--glow:0 0 14px rgba(255,59,78,.45);--rglow:0 0 18px rgba(255,145,0,.55)}
 :root[data-theme=blue]{--a:#00d0ff;--r:#ff1f3d;--line:#1f3040;--glow:0 0 14px rgba(0,208,255,.45)}
 
+/* ticker */
+#tick{margin:12px 0 0;border:1px solid var(--line);border-radius:4px;background:#000;overflow:hidden;font-family:'JetBrains Mono',monospace;font-size:.82rem;color:var(--a);white-space:nowrap}
+#tk{display:inline-block;padding:7px 0;animation:tk 40s linear infinite}
+#tick:hover #tk{animation-play-state:paused}
+#tk span{margin:0 26px}
+#tk b{color:var(--r)}
+@keyframes tk{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+.top{flex-wrap:wrap;gap:8px}
+.tl{flex-wrap:wrap;justify-content:flex-end}
+/* festival themes */
+:root[data-theme=diwali]{--a:#ffb300;--r:#ff5a1f;--line:#3a2a10;--glow:0 0 14px rgba(255,179,0,.5);--rglow:0 0 18px rgba(255,90,31,.55)}
+:root[data-theme=holi]{--a:#ff3dcb;--r:#38e8ff;--line:#3a1f38;--glow:0 0 14px rgba(255,61,203,.5);--rglow:0 0 18px rgba(56,232,255,.55)}
+:root[data-theme=india]{--a:#ff9933;--r:#19b30c;--line:#33281a;--glow:0 0 14px rgba(255,153,51,.5);--rglow:0 0 18px rgba(25,179,12,.55)}
+:root[data-theme=ipl]{--a:#00b4ff;--r:#ffb300;--line:#10303a;--glow:0 0 14px rgba(0,180,255,.5);--rglow:0 0 18px rgba(255,179,0,.55)}
+/* dialogs: Doom ID + terminal */
+dialog{background:var(--panel);color:var(--ink);border:2px solid var(--a);border-radius:8px;box-shadow:var(--glow);padding:0;width:min(560px,94vw);max-height:88vh}
+dialog::backdrop{background:rgba(0,0,0,.78)}
+.dh{display:flex;justify-content:space-between;align-items:center;padding:12px 16px;border-bottom:1px solid var(--line);font-family:'Orbitron',sans-serif;font-weight:800;letter-spacing:1px}
+.dx{font-family:'JetBrains Mono',monospace;border:1px solid var(--line);border-radius:3px;padding:2px 10px;color:var(--dim)}
+.dx:hover{border-color:var(--r);color:var(--r)}
+.db{padding:16px;overflow:auto;max-height:calc(88vh - 56px)}
+.rk{font-family:'Orbitron',sans-serif;font-weight:900;font-size:1.7rem;color:var(--a);text-shadow:var(--glow)}
+.bar2{height:10px;border:1px solid var(--line);border-radius:3px;background:#000;margin:8px 0}
+.bar2 i{display:block;height:100%;background:var(--a);box-shadow:var(--glow)}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:12px 0}
+.stats div{border:1px solid var(--line);border-radius:4px;padding:8px;text-align:center;background:#000}
+.stats b{display:block;font-family:'Orbitron',sans-serif;font-size:1.3rem;color:#fff}
+.stats span{font-size:.72rem;color:var(--dim);font-family:'JetBrains Mono',monospace}
+.bdg{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0 14px}
+.bdg span{font-family:'JetBrains Mono',monospace;font-size:.78rem;padding:3px 9px;border:1px solid var(--a);color:var(--a);border-radius:3px}
+.bdg span.off{border-color:var(--line);color:#5d7a6e}
+#termout{height:46vh;overflow:auto;padding:12px 14px;background:#000;font-family:'JetBrains Mono',monospace;font-size:.85rem;line-height:1.5;color:var(--a);white-space:pre-wrap;word-break:break-word}
+#termout a{color:#fff;text-decoration:underline}
+.tin{display:flex;align-items:center;gap:8px;padding:10px 14px;border-top:1px solid var(--line);background:#000;font-family:'JetBrains Mono',monospace;color:var(--a)}
+.tin input{flex:1;background:none;border:0;color:var(--ink);font:inherit;font-size:1rem;outline:0}
 @media(max-width:560px){
   body{font-size:16px}
   .pin{flex-wrap:wrap}
@@ -204,7 +239,8 @@ footer{padding:22px 0 34px;text-align:center;color:#7aa392;font-size:.85rem;bord
   .acts{margin-left:auto}
 }
 @media(prefers-reduced-motion:reduce){
-  .hero h1::before,.hero h1::after,.dot,.bd{animation:none!important}
+  .hero h1::before,.hero h1::after,.dot,.bd,#tk{animation:none!important}
+  #tick{overflow-x:auto}
 }
 </style>
 </head>
@@ -214,7 +250,8 @@ footer{padding:22px 0 34px;text-align:center;color:#7aa392;font-size:.85rem;bord
 
 <div class="wrap">
   <div class="top"><span><i class="dot"></i>ONLINE · by <b>RAORISH DEV</b></span>
-    <span class="tl"><button class="chip" id="fxb" aria-pressed="true" aria-label="Toggle background effects">FX ON</button><button class="chip" id="inst" hidden>INSTALL</button><button class="chip" id="lang" aria-label="Language">हिं</button><button class="th" data-th="green" style="--c:#00ff9c" aria-label="Green theme"></button><button class="th" data-th="red" style="--c:#ff3b4e" aria-label="Red theme"></button><button class="th" data-th="blue" style="--c:#00d0ff" aria-label="Blue theme"></button></span></div>
+    <span class="tl"><button class="chip" id="idb" aria-label="My Doom ID">ID</button><button class="chip" id="trm" aria-label="Terminal">&gt;_</button><button class="chip" id="fxb" aria-pressed="true" aria-label="Toggle background effects">FX ON</button><button class="chip" id="inst" hidden>INSTALL</button><button class="chip" id="lang" aria-label="Language">हिं</button><button class="th" data-th="auto" style="--c:#ffb300" aria-label="Festival theme (auto)" title="Festival theme"></button><button class="th" data-th="green" style="--c:#00ff9c" aria-label="Green theme"></button><button class="th" data-th="red" style="--c:#ff3b4e" aria-label="Red theme"></button><button class="th" data-th="blue" style="--c:#00d0ff" aria-label="Blue theme"></button></span></div>
+  <div id="tick" aria-label="Live ticker"><div id="tk"></div></div>
 
   <section class="upd" aria-label="Updates">
     <div class="upd-h">UPDATES</div>
@@ -277,6 +314,25 @@ footer{padding:22px 0 34px;text-align:center;color:#7aa392;font-size:.85rem;bord
 
   <footer><span id="vc"></span><small style="display:block;margin-bottom:6px">Anonymous visit and click counts are saved to improve the site.</small>© 2026 Raorish Dev</footer>
 </div>
+<dialog id="idm" aria-label="My Doom ID">
+  <div class="dh"><span>MY DOOM ID</span><button class="dx" id="idx" aria-label="Close">X</button></div>
+  <div class="db">
+    <div class="rk" id="rk"></div>
+    <div id="rid" style="font-family:'JetBrains Mono',monospace;color:var(--dim);font-size:.85rem"></div>
+    <div class="bar2"><i id="rbar" style="width:0"></i></div>
+    <div id="rnext" style="font-size:.85rem;color:var(--dim)"></div>
+    <div class="stats"><div><b id="s1">0</b><span>POINTS</span></div><div><b id="s2">0</b><span>STREAK</span></div><div><b id="s3">0</b><span>CLICKS</span></div></div>
+    <div class="upd-h">BADGES</div>
+    <div class="bdg" id="bdg"></div>
+    <button class="btn" id="mkc" style="width:100%">MAKE MY ID CARD</button>
+    <p class="tm" style="margin-top:8px">Saved only on your device. Nothing is sent to a server.</p>
+  </div>
+</dialog>
+<dialog id="termd" aria-label="Terminal">
+  <div class="dh"><span>DOOM TERMINAL</span><button class="dx" id="tx" aria-label="Close">X</button></div>
+  <div id="termout" role="log" aria-live="polite"></div>
+  <form class="tin" id="tf" autocomplete="off"><span>&gt;</span><input id="tcmd" aria-label="Command" autocapitalize="off" autocorrect="off" spellcheck="false" placeholder="type help"></form>
+</dialog>
 <div id="toast" role="status"></div>
 
 <script>
@@ -358,11 +414,19 @@ const COMING=["Sports","Cartoon","Anime","Music","Gaming","Educational","Tools"]
 
 const store={get(k,d){try{const v=JSON.parse(localStorage.getItem(k));return v==null?d:v}catch(e){return d}},
              set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}};
-const THEMES={green:{a:"0,255,156",r:"255,31,61"},red:{a:"255,59,78",r:"255,145,0"},blue:{a:"0,208,255",r:"255,31,61"}};
+const THEMES={green:{a:"0,255,156",r:"255,31,61"},red:{a:"255,59,78",r:"255,145,0"},blue:{a:"0,208,255",r:"255,31,61"},
+  diwali:{a:"255,179,0",r:"255,90,31"},holi:{a:"255,61,203",r:"56,232,255"},india:{a:"255,153,51",r:"25,179,12"},ipl:{a:"0,180,255",r:"255,179,0"}};
 const COL=Object.assign({},THEMES.green);
-function setTheme(n){if(!THEMES[n])n="green";document.documentElement.dataset.theme=n;Object.assign(COL,THEMES[n]);store.set("df_th",n)}
+/* festival theme by date: [from, to, theme]. First match wins. Edit dates here. */
+const FEST=[["2026-11-03","2026-11-14","diwali"],["2027-01-22","2027-01-27","india"],["2027-03-17","2027-03-23","holi"],["2027-03-24","2027-05-31","ipl"],["2027-08-10","2027-08-15","india"]];
+function festival(){const t=new Date().toLocaleDateString("en-CA");const f=FEST.find(x=>t>=x[0]&&t<=x[1]);return f?f[2]:"green"}
+function setTheme(n){
+  store.set("df_th",n);
+  const r=n==="auto"?festival():n,k=THEMES[r]?r:"green";
+  document.documentElement.dataset.theme=k;Object.assign(COL,THEMES[k]);
+}
 document.querySelectorAll(".th").forEach(b=>b.onclick=()=>setTheme(b.dataset.th));
-setTheme(store.get("df_th","green"));
+setTheme(store.get("df_th","auto"));
 
 /* Hindi / English */
 const I18N={ph:"लिंक खोजें...",tag:"सारे बेस्ट लिंक एक जगह।",d_h:"दिवाली स्पेशल अपडेट आ रहा है",
@@ -420,10 +484,156 @@ function render(){
 $("#centers").onclick=e=>{
   const f=e.target.closest(".fav");
   if(f){const u=f.closest(".row").dataset.u;favs=favs.includes(u)?favs.filter(x=>x!==u):[...favs,u];store.set("df_fav",favs);tab==="fav"?render():f.classList.toggle("on");return}
-  const a=e.target.closest("a.rl,a.go");if(a)track(a.closest(".row").dataset.u);
+  const a=e.target.closest("a.rl,a.go");if(a){const u=a.closest(".row").dataset.u;track(u);bump(u)}
 };
 $("#qi").oninput=render;
 tabs();setLang(LANG);
+
+/* ===== link health (status.json is written every night by the GitHub Action) ===== */
+function applyStatus(st){
+  if(!st||!st.links)return;
+  const k=u=>String(u).replace(/[^a-z0-9]/gi,"_").slice(0,100);
+  LINKS.forEach(l=>{const o=st.links[k(l.u)];if(o){if(o.ok===false)l.down=true;if(st.checked)l.chk=String(st.checked).slice(0,10)}});
+}
+fetch("status.json",{cache:"no-store"}).then(r=>r.ok?r.json():null).then(st=>{applyStatus(st);render()}).catch(()=>{});
+
+/* ===== hacker rank, streak, badges (all saved on the device only) ===== */
+const RANKS=[[0,"NOOB"],[40,"SCRIPT KIDDIE"],[120,"HACKER"],[300,"ELITE"],[700,"DOOM LORD"]];
+const U=Object.assign({v:0,c:0,s:0,best:0,last:"",days:0,cat:{},sh:0,night:0,early:0},store.get("df_u",{}));
+const saveU=()=>store.set("df_u",U);
+(function(){
+  const t=new Date().toLocaleDateString("en-CA"),y=new Date(Date.now()-864e5).toLocaleDateString("en-CA");
+  if(U.last!==t){U.s=U.last===y?U.s+1:1;U.days++;U.last=t;if(U.s>U.best)U.best=U.s}
+  let seen=false;try{seen=sessionStorage.getItem("df_us")}catch(e){}
+  if(!seen){U.v++;try{sessionStorage.setItem("df_us","1")}catch(e){}}
+  const h=new Date().getHours();if(h<5)U.night=1;else if(h<8)U.early=1;
+  saveU();
+})();
+let did=store.get("df_vid",null);
+if(!did){did=(crypto.randomUUID?crypto.randomUUID().replace(/-/g,""):String(Math.random()).slice(2)+Date.now()).slice(0,24);store.set("df_vid",did)}
+const DID="DOOM-"+did.slice(0,6).toUpperCase();
+const pts=()=>U.v*5+U.c*2+U.best*10+U.days*3+favs.length*3;
+function rank(){
+  const p=pts();let i=0;RANKS.forEach((r,j)=>{if(p>=r[0])i=j});
+  const nx=RANKS[i+1];
+  return{name:RANKS[i][1],p,nx,pct:nx?Math.round((p-RANKS[i][0])/(nx[0]-RANKS[i][0])*100):100};
+}
+const BADGES=[["NIGHT OWL",()=>U.night],["EARLY BIRD",()=>U.early],["STREAK 3",()=>U.best>=3],["STREAK 7",()=>U.best>=7],["COLLECTOR",()=>favs.length>=5],["EXPLORER",()=>U.c>=20],["ANIME LOVER",()=>(U.cat.Anime||0)>=5],["SPORTS FAN",()=>(U.cat.Sports||0)>=5],["SHARER",()=>U.sh>=1]];
+function upd(){
+  const r=rank();
+  $("#rk").textContent=r.name;$("#rid").textContent=DID+" \u2022 "+r.p+" pts";
+  $("#rbar").style.width=r.pct+"%";
+  $("#rnext").textContent=r.nx?(r.nx[0]-r.p)+" pts to "+r.nx[1]:"MAX RANK";
+  $("#s1").textContent=r.p;$("#s2").textContent=U.s;$("#s3").textContent=U.c;
+  $("#bdg").innerHTML=BADGES.map(b=>`<span class="${b[1]()?"":"off"}">${b[0]}</span>`).join("");
+}
+function bump(u){
+  U.c++;const l=LINKS.find(x=>x.u===u);
+  if(l){const k=catKey(l.c);U.cat[k]=(U.cat[k]||0)+1}
+  saveU();
+}
+document.addEventListener("click",e=>{if(e.target.closest(".pin .btn")){U.c++;saveU()}});
+["#shWa","#shTg","#shCp"].forEach(s=>$(s).addEventListener("click",()=>{U.sh++;saveU()}));
+
+function drawCard(){
+  const W=1080,H=1920,cv=document.createElement("canvas");cv.width=W;cv.height=H;const x=cv.getContext("2d");
+  const cs=getComputedStyle(document.documentElement),A=cs.getPropertyValue("--a").trim()||"#00ff9c",Rd=cs.getPropertyValue("--r").trim()||"#ff1f3d";
+  const r=rank(),mono="'JetBrains Mono',monospace",orb="Orbitron,'JetBrains Mono',monospace";
+  x.fillStyle="#040605";x.fillRect(0,0,W,H);
+  x.font="28px "+mono;x.fillStyle=A;
+  for(let i=0;i<1500;i++){x.globalAlpha=Math.random()*.2;x.fillText(Math.random()<.5?"0":"1",Math.random()*W,Math.random()*H)}
+  x.globalAlpha=1;x.textAlign="center";
+  x.strokeStyle=A;x.lineWidth=6;x.strokeRect(70,230,W-140,1330);
+  x.fillStyle=Rd;x.font="700 34px "+mono;x.fillText("HACKER ID CARD",W/2,330);
+  x.fillStyle="#fff";x.shadowColor=A;x.shadowBlur=30;x.font="900 110px "+orb;x.fillText("DOOMFILMS",W/2,470);x.shadowBlur=0;
+  x.fillStyle=A;x.font="900 "+(r.name.length>9?70:92)+"px "+orb;x.fillText(r.name,W/2,700);
+  x.fillStyle="#b4cfc4";x.font="700 40px "+mono;x.fillText(DID+"  \u2022  "+r.p+" pts",W/2,780);
+  x.strokeStyle=A;x.lineWidth=3;x.strokeRect(150,830,780,30);x.fillStyle=A;x.fillRect(154,834,Math.max(4,Math.round(772*r.pct/100)),22);
+  x.fillStyle="#b4cfc4";x.font="28px "+mono;x.fillText(r.nx?(r.nx[0]-r.p)+" pts to "+r.nx[1]:"MAX RANK",W/2,905);
+  [["STREAK",U.s],["BEST",U.best],["CLICKS",U.c]].forEach((q,i)=>{
+    const cx=240+i*300;x.fillStyle="#fff";x.font="900 84px "+orb;x.fillText(String(q[1]),cx,1070);
+    x.fillStyle=A;x.font="700 28px "+mono;x.fillText(q[0],cx,1115);
+  });
+  const got=BADGES.filter(b=>b[1]()).map(b=>b[0]);
+  x.textAlign="left";x.font="700 30px "+mono;
+  let bx=120,by=1210;
+  (got.length?got:["NO BADGES YET"]).forEach(n=>{
+    const w=x.measureText(n).width+44;
+    if(bx+w>960){bx=120;by+=76}
+    x.strokeStyle=got.length?A:"#5d7a6e";x.lineWidth=3;x.strokeRect(bx,by,w,56);
+    x.fillStyle=got.length?A:"#5d7a6e";x.fillText(n,bx+22,by+39);bx+=w+16;
+  });
+  x.textAlign="center";
+  x.fillStyle="#fff";x.font="700 44px "+mono;x.fillText("doomraorish.onrender.com",W/2,1470);
+  x.fillStyle="#b4cfc4";x.font="30px "+mono;x.fillText("Beat my rank. Join DoomFilms.",W/2,1525);
+  x.fillStyle="#6f9686";x.font="26px "+mono;x.fillText("Developed by Rishabh Yadav & Team",W/2,1680);
+  cv.toBlob(b=>{
+    if(!b){toast("Could not make the card");return}
+    const f=new File([b],"my-doom-id.png",{type:"image/png"});
+    if(navigator.canShare&&navigator.canShare({files:[f]})){navigator.share({files:[f],text:"My DoomFilms Hacker ID: doomraorish.onrender.com"}).then(()=>{U.sh++;saveU();upd()}).catch(()=>{})}
+    else{const a=document.createElement("a");a.href=URL.createObjectURL(b);a.download="my-doom-id.png";document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(a.href),4000);toast("ID card saved")}
+  },"image/png");
+}
+$("#idb").onclick=()=>{upd();$("#idm").showModal()};
+$("#idx").onclick=()=>$("#idm").close();
+$("#mkc").onclick=()=>{Promise.all([document.fonts.load("900 80px Orbitron"),document.fonts.load("700 30px 'JetBrains Mono'")]).catch(()=>{}).then(drawCard)};
+
+/* ===== live ticker ===== */
+let TREND=[],TMSG="";
+function renderTicker(){
+  const it=[];
+  if(TMSG)it.push("<b>LIVE</b> "+esc(TMSG));
+  const dl=Math.ceil((new Date(CONFIG.updateDate).getTime()-Date.now())/864e5);
+  if(dl>0)it.push("<b>DIWALI UPDATE</b> in "+dl+(dl>1?" days":" day"));
+  LINKS.filter(l=>!l.pinned&&!l.hide&&l.added&&Date.now()-new Date(l.added)<6048e5).slice(0,5).forEach(l=>it.push("<b>NEW</b> "+esc(l.t)));
+  if(TREND.length)it.push("<b>TRENDING</b> "+TREND.map(esc).join(" \u00b7 "));
+  if(!it.length)it.push("<b>DOOMFILMS</b> free movies, anime and AI tools");
+  const h=it.map(s=>"<span>"+s+"</span>").join(""),el=$("#tk");
+  el.innerHTML=h+h+h+h+h+h;
+  el.style.animationDuration=Math.max(20,Math.round(el.scrollWidth/2/55))+"s";
+}
+renderTicker();
+
+/* ===== terminal ===== */
+const tout=$("#termout"),tin=$("#tcmd"),hist=[];let hi=0;
+function pr(t,html){const d=document.createElement("div");if(html)d.innerHTML=t;else d.textContent=t;tout.appendChild(d);tout.scrollTop=tout.scrollHeight}
+const vis=()=>LINKS.filter(l=>!l.pinned&&!l.hide);
+const lnk=l=>`${esc(l.e)} <a href="${esc(l.u)}" target="_blank" rel="noopener noreferrer">${esc(l.t)}</a> - ${esc(l.d)}`;
+const NF=(a,c)=>pr("command not found: "+c+"  (try help)");
+const CMDS={
+  help(){pr("help | ls | search <word> | open <category> | random | rank | streak | whoami | theme <green|red|blue|diwali|holi|india|ipl|auto> | countdown | matrix | sudo hack | about | clear | exit")},
+  ls(){const m={};vis().forEach(l=>{const k=catKey(l.c);m[k]=(m[k]||0)+1});pr(Object.keys(m).map(k=>k+" ("+m[k]+")").join("\n")||"nothing here yet")},
+  search(a){const q=a.join(" ").toLowerCase();if(!q)return pr("usage: search <word>");const r=vis().filter(l=>(l.t+" "+l.d+" "+l.c).toLowerCase().includes(q)).slice(0,8);r.length?r.forEach(l=>pr(lnk(l),1)):pr("no match")},
+  open(a){const q=a.join(" ").toLowerCase();if(!q)return pr("usage: open <category>, try ls");const r=vis().filter(l=>catKey(l.c).toLowerCase().startsWith(q)).slice(0,10);r.length?r.forEach(l=>pr(lnk(l),1)):pr("no such category")},
+  random(){const v=vis();if(!v.length)return pr("no links yet");pr("your pick:");pr(lnk(v[Math.floor(Math.random()*v.length)]),1)},
+  rank(){const r=rank();pr(r.name+" - "+r.p+" pts"+(r.nx?" ("+(r.nx[0]-r.p)+" to "+r.nx[1]+")":""))},
+  streak(){pr("streak: "+U.s+" day(s), best: "+U.best)},
+  whoami(){pr(DID)},
+  theme(a){const n=(a[0]||"").toLowerCase();if(n!=="auto"&&!THEMES[n])return pr("themes: green red blue diwali holi india ipl auto");setTheme(n);pr("theme: "+n)},
+  countdown(){const d=Math.ceil((new Date(CONFIG.updateDate).getTime()-Date.now())/864e5);pr(d>0?"Diwali update in "+d+" day(s)":"Diwali update is live")},
+  matrix(){$("#fxb").click();pr("matrix toggled")},
+  about(){pr("DoomFilms by Rishabh Yadav & Team")},
+  clear(){tout.textContent=""},
+  exit(){$("#termd").close()}
+};
+function hack(){
+  const L=["[*] connecting to the matrix...","[*] bypassing firewall ........ OK","[*] injecting payload ......... OK","[*] decrypting links .......... OK","[+] ACCESS GRANTED","just kidding. you were already in. try: random"];
+  let i=0;(function n(){if(i<L.length){pr(L[i++]);setTimeout(n,450)}})();
+}
+$("#trm").onclick=()=>{$("#termd").showModal();if(!tout.childNodes.length){pr("DOOM TERMINAL v1.0");pr("type help to see commands")}tin.focus()};
+$("#tx").onclick=()=>$("#termd").close();
+$("#tf").onsubmit=e=>{
+  e.preventDefault();const v=tin.value.trim();tin.value="";if(!v)return;
+  hist.push(v);hi=hist.length;pr("> "+v);
+  const p=v.split(/\s+/),c=p[0],a=p.slice(1),k=c.toLowerCase();
+  if(k==="sudo"&&(a[0]||"").toLowerCase()==="hack")return hack();
+  (Object.prototype.hasOwnProperty.call(CMDS,k)?CMDS[k]:NF)(a,c);
+};
+tin.onkeydown=e=>{
+  if(e.key==="ArrowUp"&&hist.length){hi=Math.max(0,hi-1);tin.value=hist[hi];e.preventDefault()}
+  else if(e.key==="ArrowDown"&&hist.length){hi=Math.min(hist.length,hi+1);tin.value=hist[hi]||"";e.preventDefault()}
+};
+["idm","termd"].forEach(id=>{const d=document.getElementById(id);d.addEventListener("click",e=>{if(e.target===d)d.close()})});
 
 /* Diwali countdown */
 (function(){
@@ -452,7 +662,7 @@ if(CONFIG.tmdbKey){
   fetch("https://api.themoviedb.org/3/trending/movie/week?api_key="+CONFIG.tmdbKey).then(r=>r.json()).then(d=>{
     const m=(d.results||[]).filter(x=>x.poster_path).slice(0,12);if(!m.length)return;
     $("#strip").innerHTML=m.map(x=>`<a href="https://www.themoviedb.org/movie/${x.id}" target="_blank" rel="noopener noreferrer"><img loading="lazy" src="https://image.tmdb.org/t/p/w185${x.poster_path}" alt="${esc(x.title)}">${esc(x.title)}</a>`).join("");
-    $("#trend").hidden=false;
+    $("#trend").hidden=false;TREND=m.slice(0,6).map(x=>x.title);renderTicker();
   }).catch(()=>{});
 }
 /* analytics + visitor counter */
@@ -475,7 +685,7 @@ $("#shCp").onclick=()=>{(navigator.clipboard?navigator.clipboard.writeText(url):
 (function(){
   const c=$("#fx"),x=c.getContext("2d"),fb=$("#fxb");
   const low=(navigator.hardwareConcurrency||4)<=4;
-  let w,h,cols,drops,bubbles=[],nums=[],raf=0,last=0;
+  let w,h,cols,drops,bubbles=[],nums=[],raf=0,last=0,sparks=[];
   let on=store.get("df_fx",!(window.matchMedia&&matchMedia("(prefers-reduced-motion: reduce)").matches));
   const chars="01ABCDEFXYZ{}<>/\\#$%";
   const rnd=(a,b)=>a+Math.random()*(b-a);
@@ -524,6 +734,19 @@ $("#shCp").onclick=()=>{(navigator.clipboard?navigator.clipboard.writeText(url):
       x.shadowColor="rgba("+col+",.9)";x.shadowBlur=low?0:12;
       x.fillStyle="rgba("+col+","+(a*.85).toFixed(3)+")";
       x.fillText(n.v,n.x,n.y);
+    }
+
+    /* Diwali fireworks */
+    if(document.documentElement.dataset.theme==="diwali"){
+      if(Math.random()<.04&&sparks.length<220){
+        const bx=rnd(80,w-80),by=rnd(80,h*.55),cc=Math.random()<.5?COL.a:COL.r;
+        for(let i=0;i<26;i++){const an=i/26*6.283,sp=rnd(1.5,4);sparks.push({x:bx,y:by,vx:Math.cos(an)*sp,vy:Math.sin(an)*sp,l:1,c:cc})}
+      }
+      for(let i=sparks.length-1;i>=0;i--){
+        const q=sparks[i];q.x+=q.vx;q.y+=q.vy;q.vy+=.05;q.l-=.018;
+        if(q.l<=0){sparks.splice(i,1);continue}
+        x.fillStyle="rgba("+q.c+","+q.l.toFixed(2)+")";x.fillRect(q.x,q.y,3,3);
+      }
     }
 
     /* bubbles */
@@ -591,7 +814,7 @@ if(!counted){
     ["stats/days/"+d+"/visits"]:increment(1),
     ["stats/days/"+d+"/uniq/"+vid]:true,
     ["stats/device/"+dev]:increment(1),
-    ["stats/theme/"+(document.documentElement.dataset.theme||"green")]:increment(1)
+    ["stats/theme/"+(["green","red","blue"].includes(document.documentElement.dataset.theme)?document.documentElement.dataset.theme:"green")]:increment(1)
   }).catch(()=>{});
 }
 
@@ -609,16 +832,17 @@ document.addEventListener("click",e=>{
   update(ref(db),{["clicks/"+k+"/n"]:increment(1),["clicks/"+k+"/t"]:t}).catch(()=>{});
 },true);
 
-/* links added from the admin panel + down/hidden switches (one read, public) */
+/* links added from the admin panel, down/hidden switches, ticker message (one read, public) */
 get(ref(db,"config")).then(s=>{
   const cf=s.val()||{},cu=cf.custom||{},c=cf.links||{};
   Object.values(cu).forEach(o=>{
     if(o&&o.t&&o.c&&/^https?:\/\/\S+$/i.test(o.u)&&!LINKS.some(l=>l.u===o.u))
       LINKS.push({t:String(o.t).slice(0,80),c:String(o.c).slice(0,40),e:String(o.e||"🔗").slice(0,8),d:String(o.d||"").slice(0,160),u:o.u,added:o.added});
   });
-  LINKS.forEach(l=>{const o=c[key(l.u)];if(o){l.down=!!o.down;l.hide=!!o.hide}});
-  render();
-}).catch(()=>{});
+  LINKS.forEach(l=>{const o=c[key(l.u)];if(o){l.down=!!(l.down||o.down);l.hide=!!o.hide}});
+  if(typeof cf.ticker==="string")TMSG=cf.ticker.slice(0,200);
+  return fetch("status.json",{cache:"no-store"}).then(r=>r.ok?r.json():null).catch(()=>null);
+}).then(st=>{applyStatus(st);render();renderTicker()}).catch(()=>{});
 }catch(e){}
 </script>
 </body>
