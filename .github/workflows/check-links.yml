@@ -1,0 +1,22 @@
+name: Check links
+on:
+  schedule:
+    - cron: '30 20 * * *'
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - run: node check-links.js
+      - name: Save status.json
+        run: |
+          git config user.name "doomfilms-bot"
+          git config user.email "bot@users.noreply.github.com"
+          git add status.json
+          git diff --cached --quiet || (git commit -m "Update link status" && git push)
